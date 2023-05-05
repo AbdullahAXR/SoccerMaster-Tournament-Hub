@@ -1,0 +1,36 @@
+/* nav bar */
+@media (min-width: 992px) {
+  #nav-bar-links {
+    margin-left: 2rem;
+  }
+}
+
+/* shared css */
+body {
+  background-color: #eceff1;
+  margin-bottom: 3rem;
+}
+.ml-auto {
+  margin-left: auto;
+}
+.x-panel {
+  background-color: #f8f9fa;
+  box-shadow: 0px 0px 6px #0000001c;
+  padding: 20px;
+  border-radius: 7px;
+}
+
+.w-250 {
+  width: 250px;
+}
+
+.w-180 {
+  width: 180px;
+}
+
+.pl-1 {
+  padding-left: 0.5rem;
+}
+.line-h-2 {
+  line-height: 2;
+}

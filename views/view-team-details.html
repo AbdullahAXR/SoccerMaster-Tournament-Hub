@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Details</title>
+
+    <!-- bootstrap css -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="style/layout.css">
+
+</head>
+
+<body>
+
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">SOCCER@KFUPM</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul id="nav-bar-links" class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="dashboard.html">Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="manage-tournaments.html">Manage Tournaments</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="manage-teams.html">Manage Teams</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="about.html">About</a>
+                        </li>
+                    </ul>
+                    <ul id="nav-bar-links" class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="logout.html"><button class="btn btn-primary mb-1">Log
+                                    out</button></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="row g-3 x-panel mt-4 ">
+                <h1>Team X</h1>
+                <div class="col-md-6">
+                    <p><b>Name:</b> Team X</p>
+                    <p><b>Number:</b> 1</p>
+                    <p><b>Address:</b> 283 Vallie Trail</p>
+                    <p><b>Website:</b> <a href="#">www.teamx.com</a></p>
+                    <p><b>Number of players:</b> 11</p>
+                </div>
+
+                <div class="col-md-6">
+                    <p><b>Contact Number:</b> 720-361-8966</p>
+                    <p><b>Email address:</b> <a href="mailto:teamx@tour.com">www.teamx.com</a></p>
+                    <p><b>Main Coach:</b> Buster Carroll</p>
+                    <p><b>Manager:</b> Pansy Schmitt</p>
+                </div>
+                <div class="col-md-6"></div>
+            </div>
+
+            <div class="row g-3 x-panel mt-4">
+                <h2>Players</h2>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">KFUMP ID</th>
+                                <th scope="col">Team Number</th>
+                                <th scope="col">Date of Birth</th>
+                                <th scope="col">Type</th>
+                                <th scope="col">Contact Number</th>
+                                <th scope="col">Email address</th>
+                                <th scope="col">Department</th>
+                                <th scope="col" class="w-180">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Braulio Boehm</td>
+                                <td>1</td>
+                                <td>5</td>
+                                <td>May 11 2022</td>
+                                <td>Striker</td>
+                                <td>554-905-9980</td>
+                                <td><a href="mailto:Braulio@example.com">Braulio@example.com</a></td>
+                                <td>Football</td>
+                                <td>
+                                    <a href="edit-player-details.html"><button
+                                            class="btn btn-primary mb-1">Edit</button></a>
+                                    <a href="delete-player-details.html"><button
+                                            class="btn btn-danger mb-1">Delete</button></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Braulio Boehm</td>
+                                <td>1</td>
+                                <td>5</td>
+                                <td>May 11 2022</td>
+                                <td>Striker</td>
+                                <td>554-905-9980</td>
+                                <td><a href="mailto:Braulio@example.com">Braulio@example.com</a></td>
+                                <td>Football</td>
+                                <td>
+                                    <a href="edit-player-details.html"><button
+                                            class="btn btn-primary mb-1">Edit</button></a>
+                                    <a href="delete-player-details.html"><button
+                                            class="btn btn-danger mb-1">Delete</button></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Braulio Boehm</td>
+                                <td>1</td>
+                                <td>5</td>
+                                <td>May 11 2022</td>
+                                <td>Striker</td>
+                                <td>554-905-9980</td>
+                                <td><a href="mailto:Braulio@example.com">Braulio@example.com</a></td>
+                                <td>Football</td>
+                                <td>
+                                    <a href="edit-player-details.html"><button
+                                            class="btn btn-primary mb-1">Edit</button></a>
+                                    <a href="delete-player-details.html"><button
+                                            class="btn btn-danger mb-1">Delete</button></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col d-flex">
+                    <a class="ml-auto" href="manage-teams.html"><button class="btn btn-primary mb-1">Back to Manage
+                            Teams</button></a>
+                </div>
+            </div>
+
+            <div class="row g-3 x-panel mt-4">
+                <h2>Add New Player</h2>
+                <form action="#" method="post">
+                    <div class="col">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" name="name" id="name" placeholder="Player Name"
+                                aria-label="Player Name" aria-describedby="basic-addon1" required>
+                            <label for="name">Player Name</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" name="ID" id="ID" placeholder="Player ID"
+                                aria-label="Player ID" aria-describedby="basic-addon1" required>
+                            <label for="ID">Player ID</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" name="team-number" id="team-number"
+                                placeholder="Team Number" aria-label="Team Number" aria-describedby="basic-addon1"
+                                required>
+                            <label for="phone">Team Number</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="date" class="form-control" name="date" placeholder="date" aria-label="date"
+                                aria-describedby="basic-addon1" required>
+                            <label for="date">Date of Birth</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <select class="form-select" name="type" id="type" aria-label="type">
+                                <option selected disabled>Select...</option>
+                                <option value="1">Goal Keeper</option>
+                                <option value="2">Striker</option>
+                                <option value="3">Defendor</option>
+                                <option value="3">MidLiner</option>
+                            </select>
+                            <label for="type">Type</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" name="phone" id="phone" placeholder="phone"
+                                aria-label="phone" aria-describedby="basic-addon1" required>
+                            <label for="phone">Contact Number</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="email" class="form-control" name="email" id="email" placeholder="Email"
+                                aria-label="Email" aria-describedby="basic-addon1" required>
+                            <label for="email">Email</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" name="department" id="department"
+                                placeholder="department" aria-label="department" aria-describedby="basic-addon1"
+                                required>
+                            <label for="department">Department</label>
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex">
+                        <button class="btn btn-primary mb-1 ml-auto" type="submit">Create Player</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- bootstrap js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
