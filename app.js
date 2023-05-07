@@ -1,6 +1,4 @@
 const express = require('express')
-const nunjucks = require('nunjucks')
-const path = require('path')
 const app = express()
 const indexRoute = require('./routes/index.js')
 const aboutRoute = require('./routes/about.js')
@@ -23,19 +21,17 @@ const uTournamentDetailsRoute = require('./routes/u-tournament-details.js')
 const viewTeamDetailsRoute = require('./routes/view-team-details.js')
 const viewTournamentDetailsRoute = require('./routes/view-tournament-details.js')
 const port = 3000
+nunjucks = require('nunjucks');
 
-nunjucks.configure('views', {
-  //autoescape: true,
-  express: app
-})
+
 app.set('view engine', 'html');
 
+nunjucks.configure('views/', {
+    autoescape: false,
+    express: app
+});
 
-app.get('/', async (req, res) => {
-    //const loadedArticles = await getAllArticles()
-    res.render('index',{Hey: "g", tournaments: [{name: "World Cup 1", startDate: 2014, endDate: 2014}]});
-  })
-//app.use('/index', indexRoute)
+app.use('/index', indexRoute)
 app.use('/about',aboutRoute)
 app.use('/dashboard',dashboardRoute)
 app.use('/delete-match-details',deleteMatchRoute)
@@ -58,5 +54,5 @@ app.use('/view-tournament-details',viewTournamentDetailsRoute)
 
 
 app.listen(port, () => {
-    console.log(`App is listening at http://localhost:${port}`)
+    console.log(`Example app listening at http://localhost:${port}`)
 });

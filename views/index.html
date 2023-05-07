@@ -74,12 +74,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% for tournament in tournaments %}
+                            {% for tournament in myObj %}
                             <tr>
-                                <th scope="row">1</th>
-                                <td>{{tournament.name}}</td>
-                                <td>{{tournament.startDate}}</td>
-                                <td>{{tournament.endtDate}}</td>
+                                
+                                <td>{{tournament.tr_id}}</td>
+                                <td>{{tournament.tr_name}}</td>
+                                <td>{{tournament.start_date}}</td>
+                                <td>{{tournament.end_date}}</td>
                                 <td><a href="u-tournament-details"><button
                                             class="btn btn-dark mb-1">View</button></a>
                                 </td>
