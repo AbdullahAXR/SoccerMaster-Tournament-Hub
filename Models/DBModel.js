@@ -1,27 +1,30 @@
-import { Database } from 'sqlite3'
-import { open } from 'sqlite'
+const sqlite3 = require('sqlite3')
+const sqlite = require('sqlite')
 
-// open the database
 const getDbConnection = async () => {
-  return await open({
-    filename: './sqlite.db3',
-    driver: Database
+  return await sqlite.open({
+    filename: './sqlite.db',
+    driver: sqlite3.Database
   })
 }
-// query the database to return an array of sessions from the sessions table.
-const getAllRequestedSessions = async (searchKeyword, subject, limit, offset) => {
+
+const getAllTournaments = async () => {
   const db = await getDbConnection();
-  let checksubj = ''
-  if (subject)
-    checksubj = `
-   AND EXISTS(
-    SELECT * FROM SUBJECT subj JOIN SESSION_SUBJECT ses_subj ON subj.id = ses_subj.subject_id
-    WHERE ses_subj.request_session_id = ses.id AND subj.name = '${subject}'
-  ) 
-  `
-  const sessions = await db.all(`
-  SELECT * FROM REQUEST_SESSION ses WHERE title LIKE '%${searchKeyword}%' ${checksubj} ORDER BY 'startDate' DESC LIMIT ${limit} OFFSET ${offset}
-  `)
+  const tournaments = await db.all(`SELECT * FROM tournament`)
   await db.close()
-  return sessions
+  return tournaments
 }
+
+const getTournamentsDetails = async (id) => {
+  const db = await getDbConnection();
+  
+  const teams = await db.all(`SELECT * FROM team JOIN tournament ON  tournament.tr_id = team.tr_id WHERE tournament.tr_id = ${id}`)
+  await db.close()
+  return teams
+}
+
+module.exports = {
+  getAllTournaments,
+  getTournamentsDetails,
+} 
+

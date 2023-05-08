@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-const indexRoute = require('./routes/index.js')
+//const indexRoute = require('./routes/index.js')
 const aboutRoute = require('./routes/about.js')
 const dashboardRoute = require('./routes/dashboard.js')
 const deleteMatchRoute = require('./routes/delete-match-details.js')
@@ -20,8 +20,11 @@ const uTeamDetailsRoute = require('./routes/u-team-details.js')
 const uTournamentDetailsRoute = require('./routes/u-tournament-details.js')
 const viewTeamDetailsRoute = require('./routes/view-team-details.js')
 const viewTournamentDetailsRoute = require('./routes/view-tournament-details.js')
-const port = 3000
+const { getAllTournaments,
+} = require('./Models/DBModel')
+const port = 3005
 nunjucks = require('nunjucks');
+
 
 
 app.set('view engine', 'html');
@@ -31,7 +34,11 @@ nunjucks.configure('views/', {
     express: app
 });
 
-app.use('/index', indexRoute)
+app.get('/', async (req, res) => {
+  const tournaments = await getAllTournaments()
+  res.render('index', { tournaments : tournaments});
+})
+
 app.use('/about',aboutRoute)
 app.use('/dashboard',dashboardRoute)
 app.use('/delete-match-details',deleteMatchRoute)
@@ -54,5 +61,5 @@ app.use('/view-tournament-details',viewTournamentDetailsRoute)
 
 
 app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`)
+    console.log(`App is listening at http://localhost:${port}`)
 });
