@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+
+{% block content %}
+<body>
+
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">SOCCER@KFUPM</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul id="nav-bar-links" class="navbar-nav me-auto mb-1 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="dashboard">Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="manage-tournaments">Manage Tournaments</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="manage-teams">Manage Teams</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="about">About</a>
+                        </li>
+                    </ul>
+                    <ul id="nav-bar-links" class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="logout"><button class="btn btn-primary mb-1">Log
+                                    out</button></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+
+    <main>
+        <div class="container">
+            <div class="row g-3 x-panel mt-4">
+                <h1>Manage Teams</h1>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Tournament Name</th>
+                                <th scope="col">Team group</th>
+                                <th scope="col">Match played</th>
+                                <th scope="col">Won</th>
+                                <th scope="col">Draw</th>
+                                <th scope="col">Lost</th>
+                                <th scope="col">Goal for</th>
+                                <th scope="col">Goal agains</th>
+                                <th scope="col">Goal difference</th>
+                                <th scope="col">Points</th>
+                                <th scope="col">Group Position</th>
+                                <th scope="col" class="w-250">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="Manage-teams">
+                            {% for team in teams %}
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>{{team.team_id}}</td>
+                                <td>{{team.tr_id}}</td>
+                                <td>{{team.team_group}}</td>
+                                <td>{{team.match_played}}</td>
+                                <td>{{team.won}}</td>
+                                <td>{{team.draw}}</td>
+                                <td>{{team.lost}}</td>
+                                <td>{{team.goal_against}}</td>
+                                <td>{{team.goal_diff}}</td>
+                                <td>{{team.points}}</td>
+                                <td>{{team.group_position}}</td>
+                                <td>
+                                    <a href="view-team-details/{{team.team_id}}/{{team.tr_id}}"><button class="btn btn-dark mb-1">View</button></a>
+                                    <a href="edit-team-details/{{team.team_id}}/{{team.tr_id}}"><button
+                                            class="btn btn-primary mb-1">Edit</button></a>
+                                    <a href="delete-team-details/{{team.team_id}}/{{team.tr_id}}"><button
+                                            class="btn btn-danger mb-1">Delete</button></a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="row g-3 x-panel mt-4">
+                <h2>Create New Team</h2>
+                <form action="#" method="post">
+                    <div class="col">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" name="name" id="name" placeholder="Team Name"
+                                aria-label="Team Name" aria-describedby="basic-addon1" required>
+                            <label for="name">Team Name</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" name="number" id="number" placeholder="Team Number"
+                                aria-label="Team Number" aria-describedby="basic-addon1" required>
+                            <label for="number">Team Number</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" name="address" id="address"
+                                placeholder="Team Address" aria-label="Team Address" aria-describedby="basic-addon1"
+                                required>
+                            <label for="address">Address</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" name="website" id="website" placeholder="Website"
+                                aria-label="Website" aria-describedby="basic-addon1" required>
+                            <label for="Website">Website</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" name="phone" id="phone" placeholder="Contact Number"
+                                aria-label="Contact Number" aria-describedby="basic-addon1" required>
+                            <label for="phone">Contact Number</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="email" class="form-control" name="email" id="email" placeholder="Email"
+                                aria-label="Email" aria-describedby="basic-addon1" required>
+                            <label for="email">Email</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="number" min="11" class="form-control" name="number-of-players"
+                                placeholder="Number of Players" aria-label="Number of Players"
+                                aria-describedby="basic-addon1" required>
+                            <label for="number-of-players">Number of Players</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" name="coach" id="coach" placeholder="Coach Name"
+                                aria-label="Coach Name" aria-describedby="basic-addon1" required>
+                            <label for="coach">Coach Name</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" name="manager" id="manager"
+                                placeholder="Manager Name" aria-label="Manager Name" aria-describedby="basic-addon1"
+                                required>
+                            <label for="manager">Manager Name</label>
+                        </div>
+
+                    </div>
+                    <div class="col-12 d-flex">
+                        <button class="btn btn-primary mb-1 ml-auto" type="submit">Create Team</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+
+    <!-- bootstrap js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <script type="module" src="Database.js"></script>
+</body>
+</html>
+{% endblock %}

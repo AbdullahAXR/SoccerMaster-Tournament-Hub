@@ -1,0 +1,174 @@
+{% extends "base.html" %}
+
+{% block content %}
+<body>
+
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">SOCCER@KFUPM</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul id="nav-bar-links" class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="dashboard">Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="manage-tournaments">Manage Tournaments</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="manage-teams">Manage Teams</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="about">About</a>
+                        </li>
+                    </ul>
+                    <ul id="nav-bar-links" class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="logout"><button class="btn btn-primary mb-1">Log
+                                    out</button></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="row g-3 x-panel mt-4 ">
+                <h1>Team {{team.team_id}}</h1>
+                <div class="col-md-6">
+                    <p><b>Tournament ID:</b> {{team.tr_id}}</p>
+                    <p><b>Team group:</b> {{team.team_group}}</p>
+                    <p><b>Match played:</b> {{team.match_played}}</p>
+                    <p><b>Won:</b> {{team.won}}</p>
+                    <p><b>Draw:</b> {{team.draw}}</p>
+                    <p><b>Lost:</b> {{team.lost}}</p>
+
+                </div>
+
+                <div class="col-md-6">
+                    <p><b>Goal for:</b> {{team.goal_for}}</p>
+                    <p><b>Goal against:</b> {{team.goal_against}}</p>
+                    <p><b>Goal difference:</b> {{team.goal_deff}}</p>
+                    <p><b>Points:</b> {{team.points}}</p>
+                    <p><b>Group position:</b> {{team.group_position}}</p>
+                </div>
+                <div class="col-md-6"></div>
+            </div>
+
+            <div class="row g-3 x-panel mt-4">
+                <h2>Players</h2>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Position</th>
+                                <th scope="col">Team Number</th>
+                                <th scope="col">Date of Birth</th>
+                                <th scope="col">Jersey Number</th>
+                                <th scope="col">Player ID</th>
+                                <th scope="col" class="w-180">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for player in players %}
+                            <tr>
+                                <td>{{player.player_name}}</td>
+                                <td>{{player.position_to_play}}</td>
+                                <td>{{player.team_id}}</td>
+                                <td>{{player.dt_of_bir}}</td>
+                                <td>{{player.jersey_no}}</td>
+                                <td>{{player.player_id}}</td>
+                                <td>
+                                    <a href="edit-player-details/{{player.player_id}}/{{player.team_id}}"><button
+                                            class="btn btn-primary mb-1">Edit</button></a>
+                                    <a href="delete-player-details/{{player.player_id}}/{{player.team_id}}"><button
+                                            class="btn btn-danger mb-1">Delete</button></a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col d-flex">
+                    <a class="ml-auto" href="manage-teams"><button class="btn btn-primary mb-1">Back to Manage
+                            Teams</button></a>
+                </div>
+            </div>
+
+            <div class="row g-3 x-panel mt-4">
+                <h2>Add New Player</h2>
+                <form action="#" method="post">
+                    <div class="col">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" name="name" id="name" placeholder="Player Name"
+                                aria-label="Player Name" aria-describedby="basic-addon1" required>
+                            <label for="name">Player Name</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" name="ID" id="ID" placeholder="Player ID"
+                                aria-label="Player ID" aria-describedby="basic-addon1" required>
+                            <label for="ID">Player ID</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" name="team-number" id="team-number"
+                                placeholder="Team Number" aria-label="Team Number" aria-describedby="basic-addon1"
+                                required>
+                            <label for="phone">Team Number</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="date" class="form-control" name="date" placeholder="date" aria-label="date"
+                                aria-describedby="basic-addon1" required>
+                            <label for="date">Date of Birth</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <select class="form-select" name="type" id="type" aria-label="type">
+                                <option selected disabled>Select...</option>
+                                <option value="1">Goal Keeper</option>
+                                <option value="2">Striker</option>
+                                <option value="3">Defendor</option>
+                                <option value="3">MidLiner</option>
+                            </select>
+                            <label for="type">Type</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" name="phone" id="phone" placeholder="phone"
+                                aria-label="phone" aria-describedby="basic-addon1" required>
+                            <label for="phone">Contact Number</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="email" class="form-control" name="email" id="email" placeholder="Email"
+                                aria-label="Email" aria-describedby="basic-addon1" required>
+                            <label for="email">Email</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" name="department" id="department"
+                                placeholder="department" aria-label="department" aria-describedby="basic-addon1"
+                                required>
+                            <label for="department">Department</label>
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex">
+                        <button class="btn btn-primary mb-1 ml-auto" type="submit">Create Player</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- bootstrap js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
+{% endblock %}
