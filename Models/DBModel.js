@@ -23,8 +23,26 @@ const getTournamentsDetails = async (id) => {
   return teams
 }
 
+const getUserDetails = async (email) => {
+  const db = await getDbConnection();
+  const user = await db.all(`SELECT * FROM Auth WHERE email = '${email}'`)
+  await db.close()
+  return user
+}
+
+const createUser = async (User) => {
+  const db = await getDbConnection();
+  const meta = await db.all(`INSERT INTO Auth (name,email,password,admin) 
+  VALUES ('${User.name}','${User.email}','${User.password}','${User.isAdmin}')
+  `)
+  await db.close()
+  return meta
+}
+
 module.exports = {
   getAllTournaments,
   getTournamentsDetails,
+  getUserDetails,
+  createUser,
 } 
 
