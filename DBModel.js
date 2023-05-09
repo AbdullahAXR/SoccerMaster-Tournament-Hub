@@ -25,7 +25,6 @@ const getTournamentsDetails = async (id) => {
 
 const getAllTeams = async () =>{
   const db = await getDbConnection();
-
   const teams = await db.all('SELECT * FROM team')
   await db.close()
   return teams
@@ -39,16 +38,31 @@ const getTeam = async (team_id,tr_id) =>{
 } 
 const getPlayers = async (team_id) =>{
   const db = await getDbConnection();
-  const players = await db.all(`SELECT * FROM player WHERE team_id = '${team_id}'`)
+  const players = await db.all(`SELECT * FROM player JOIN playing_position WHERE player.position_to_play = playing_position.position_id AND team_id = '${team_id}'`)
+  console.log(players)
   await db.close()
   return players
 } 
 
 const getCoachName = async (team_id,tr_id) =>{
   const db = await getDbConnection();
-  const coach = await db.all('SELECT * FROM team JOIN coach join team_coaches WHERE team.team_id = 1214 AND team.team_id = team_coaches.team_id AND coach.coach_id = team_coaches.coach_id')
+  const coach = await db.all(`SELECT * FROM team JOIN coach join team_coaches WHERE team.team_id = '${team_id}' AND team.team_id = team_coaches.team_id AND coach.tr_id = '${tr_id}'`)
   await db.close()
   return coach
+}
+
+const getTournamentName = async (tr_id) =>{
+  const db = await getDbConnection();
+  const tr_name = await db.all(`SELECT * FROM tournament WHERE tr_id = '${tr_id}'`)
+  await db.close()
+  return tr_name
+}
+
+const getMatches = async (tr_id) =>{ 
+  const db = await getDbConnection();
+  const matches = await db.all(`SELECT * FROM match_details WHERE tr_id = '${tr_id}'`)
+  await db.close()
+  return matches
 }
 
 module.exports = {
@@ -58,5 +72,6 @@ module.exports = {
   getTeam,
   getPlayers,
   getCoachName,
+  getTournamentName,
 } 
 
