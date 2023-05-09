@@ -9,7 +9,7 @@ var cookieParser = require('cookie-parser');
 const { 
   getAllTournaments,getUserDetails, 
   createUser ,getTournamentsDetails,
-  getTeam, getPlayers
+  getTeam, getPlayers,getAllTeams,getCoachName,getTournamentName,
 } = require('./Models/DBModel')
 const port = 3000
 
@@ -122,13 +122,6 @@ app.post('/signup', async function(req, res){
     } 
 });
 
-// TOURNMANTES DETAILS
-app.get("/u-tournament-details/:t_id", async (req, res) => {
-  const id = req.params.t_id
-  //const name = req.params.t_name
-  const teams = await getTournamentsDetails(id)
-  res.render("u-tournament-details" ,{teams:teams, isLogged: req.session.logged });
-});
 
 // TEAM DETAILS 
 app.get("/view-team-details/:team_id/:tr_id", async (req, res) => {
@@ -136,9 +129,9 @@ app.get("/view-team-details/:team_id/:tr_id", async (req, res) => {
   const tr_id = req.params.tr_id
   const team = await getTeam(team_id,tr_id)
   const players = await getPlayers(team_id)
-  res.render("view-team-details" ,{team: team[0] , players: players , isLogged: req.session.logged});
+  // res.render("view-team-details" ,{team: team[0] , players: players , isLogged: req.session.logged});
   const coach_name = await getCoachName(team_id,tr_id)
-  console.log(coach_name)
+  // console.log(coach_name)
   res.render("view-team-details" ,{team: team[0] , players: players, coach_name: coach_name[0], isLogged: req.session.logged});
 });
 
@@ -146,7 +139,7 @@ app.get("/view-team-details/:team_id/:tr_id", async (req, res) => {
 app.get('/manage-teams', async function(req, res, next) { 
   const teams = await getAllTeams()
   console.log(teams)
-  res.render('manage-teams', { teams : teams, isLogged: req.session.logged});
+  res.render('manage-teams.html', { teams : teams, isLogged: req.session.logged});
 });
 
 // U TEAM DETAILS
@@ -155,12 +148,24 @@ app.get("/u-team-details/:team_id/:tr_id", async (req, res) => {
   const tr_id = req.params.tr_id
   const team = await getTeam(team_id,tr_id)
   const players = await getPlayers(team_id)
-  res.render("u-team-details" ,{team: team[0] , players: players , isLogged: req.session.logged});
   const coach_name = await getCoachName(team_id,tr_id)
-  console.log(coach_name)
-  //res.render("u-team-details" ,{team: team[0] , players: players, coach_name: coach_name[0], isLogged: req.session.logged});
+  res.render("u-team-details" ,{team: team[0] , players: players, coach_name: coach_name[0], isLogged: req.session.logged});
 });
 
+// MANAGE TOURNAMENTS
+app.get('/manage-tournaments', async (req, res) => {
+  const tournaments = await getAllTournaments()
+  res.render('manage-tournaments', { tournaments : tournaments,  isLogged: req.session.logged});
+})
+
+// U TOURNAMENTS DETAILS
+app.get('/u-tournament-details/:tr_id', async (req, res) => {
+  const tr_id = req.params.tr_id
+  const teams = await getTournamentsDetails(tr_id)
+  // const tr_name = await getTournamentName(tr_id)
+  // console.log(tr_name)
+  res.render('u-tournament-details', { teams : teams,  isLogged: req.session.logged});
+})
 
 app.listen(port, () => {
     console.log(`App is listening at http://localhost:${port}`)
