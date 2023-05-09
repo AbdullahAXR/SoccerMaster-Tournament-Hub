@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-let path = require('path');
 const { getTournamentsDetails } = require('../Models/DBModel')
 nunjucks = require('nunjucks');
 
