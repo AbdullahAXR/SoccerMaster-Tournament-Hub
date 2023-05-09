@@ -4,10 +4,10 @@
     <main>
         <div class="container">
             <div class="row g-3 x-panel mt-4">
-                <h1>Team X</h1>
+                <h1>Team {{team.team_id}}</h1>
                 <div class="col-md-6">
                     <p><b>Name:</b> Team X</p>
-                    <p><b>Number:</b> 1</p>
+                    <p><b>Number:</b> {{team.team_id}}</p>
                     <p><b>Address:</b> 283 Vallie Trail</p>
                     <p><b>Website:</b> <a href="#">www.teamx.com</a></p>
                     <p><b>Number of players:</b> 11</p>
@@ -73,7 +73,7 @@
                     </table>
                 </div>
                 <div class="col d-flex">
-                    <a class="ml-auto" href="index"><button class="btn btn-primary mb-1">Back To Home</button></a>
+                    <a class="ml-auto" href="/"><button class="btn btn-primary mb-1">Back To Home</button></a>
                 </div>
             </div>
         </div>

@@ -6,7 +6,7 @@
         <div class="container">
             <div class="row g-3 x-panel mt-4">
 
-                <h1>{{t_name}}</h1>
+                <h1>{{teams[0].tr_name}}</h1>
 
 
                 <div class="table-responsive">
@@ -28,7 +28,7 @@
                             {% for team in teams %}
                             <tr>
                                 <td>{{team.group_position}}</td>
-                                <td><a href="u-team-details">{{team.team_id}}</a></td>
+                                <td><a href="/u-team-details/{{team.team_id}}/{{team.tr_id}}">{{team.team_id}}</a></td>
                                 <td>{{team.won}}</td>
                                 <td>{{team.draw}}</td>
                                 <td>{{team.lost}}</td>
@@ -42,7 +42,7 @@
                     </table>
                 </div>
                 <div class="col d-flex">
-                    <a class="ml-auto" href="index"><button class="btn btn-primary mb-1">Back To Home</button></a>
+                    <a class="ml-auto" href="/"><button class="btn btn-primary mb-1">Back To Home</button></a>
                 </div>
             </div>
 
@@ -85,7 +85,7 @@
                     </table>
                 </div>
                 <div class="col d-flex">
-                    <a class="ml-auto" href="index"><button class="btn btn-primary mb-1">Back To Home</button></a>
+                    <a class="ml-auto" href="/"><button class="btn btn-primary mb-1">Back To Home</button></a>
                 </div>
             </div>
 

@@ -6,49 +6,18 @@ var multer = require('multer');
 var upload = multer(); 
 nunjucks = require('nunjucks');
 var cookieParser = require('cookie-parser');
-const { getUserDetails } = require('./Models/DBModel')
-const aboutRoute = require('./routes/about.js')
-const dashboardRoute = require('./routes/dashboard.js')
-const deleteMatchRoute = require('./routes/delete-match-details.js')
-const deletePlayerRoute = require('./routes/delete-player-details.js')
-const deleteTeamRoute = require('./routes/delete-team-details.js')
-const deleteTournamentRoute = require('./routes/delete-tournament-details.js')
-const editMatchRoute = require('./routes/edit-match-details.js')
-const editPlayerRoute = require('./routes/edit-player-details.js')
-const editTeamRoute = require('./routes/edit-team-details.js')
-const editTournamentRoute = require('./routes/edit-tournament-details.js')
-const mangeTeamsRoute = require('./routes/manage-teams.js')
-const manageTournamentsRoute = require('./routes/manage-tournaments.js')
-const signUpRoute = require('./routes/signup.js')
-const uTeamDetailsRoute = require('./routes/u-team-details.js')
-const uTournamentDetailsRoute = require('./routes/u-tournament-details.js')
-const viewTeamDetailsRoute = require('./routes/view-team-details.js')
-const viewTournamentDetailsRoute = require('./routes/view-tournament-details.js')
-const { getAllTournaments,
+const { 
+  getAllTournaments,getUserDetails, 
+  createUser ,getTournamentsDetails,
+  getTeam, getPlayers
 } = require('./Models/DBModel')
 const port = 3000
-app.use('/about',aboutRoute)
-app.use('/signup',signUpRoute)
-app.use('/dashboard',dashboardRoute)
-app.use('/delete-match-details',deleteMatchRoute)
-app.use('/delete-player-details',deletePlayerRoute)
-app.use('/delete-team-details',deleteTeamRoute)
-app.use('/delete-tournament-details',deleteTournamentRoute)
-app.use('/edit-match-details',editMatchRoute)
-app.use('/edit-player-details',editPlayerRoute)
-app.use('/edit-team-details',editTeamRoute)
-app.use('/edit-tournament-details',editTournamentRoute)
-app.use('/manage-teams',mangeTeamsRoute)
-app.use('/manage-tournaments',manageTournamentsRoute)
-app.use('/u-team-details',uTeamDetailsRoute)
-app.use('/u-tournament-details',uTournamentDetailsRoute)
-app.use('/view-team-details',viewTeamDetailsRoute)
-app.use('/view-tournament-details',viewTournamentDetailsRoute)
 
 //Cookie
 app.set('trust proxy', 1) 
 app.use(upload.array());
 app.use(cookieParser());
+app.use(bodyParser.json())
 app.use(session({  
   name: `dbproject`,
   secret: 'some-secret',  
@@ -60,7 +29,7 @@ app.use(session({
   } 
 }));
 
-
+// Nunjuks
 app.set('views','./views');
 app.set('view engine', 'html');
 nunjucks.configure('views/', {
@@ -68,12 +37,23 @@ nunjucks.configure('views/', {
     express: app
 });
 
+//Index
 app.get('/', async (req, res) => {
   const tournaments = await getAllTournaments()
   res.render('index', { tournaments : tournaments,  isLogged: req.session.logged});
 })
 
 
+
+
+/************************************************************************/
+/************************************************************************/
+/***************************PAGES ROUTES*********************************/
+/************************************************************************/
+/************************************************************************/
+
+
+// LOGIN
 app.get('/login', async function(req, res) { 
     res.render('login', {isLogged: req.session.logged});
 });
@@ -103,9 +83,82 @@ app.post('/login', async function(req, res){
 } 
 });
 
+// LOGOUT
 app.get('/logout', function(req, res) { 
   req.session.logged = false;
   res.redirect('/');
+});
+
+// ABOUT
+app.get('/about', function(req, res) { 
+  res.render('about',{isLogged: req.session.logged});
+});
+
+// SIGN UP
+app.get('/signup', function(req, res) { 
+    res.render('signup', {isLogged: req.session.logged});
+});
+
+
+app.post('/signup', async function(req, res){
+
+    const Users = await getUserDetails(req.body.email)
+    var cond = true;
+    if(!req.body.email || !req.body.password){
+       res.status("400");
+       res.send("Invalid details!");
+    } else {
+        Users.filter(function(user){
+    if (req.body.email === user.email) {
+              cond = false;
+             res.render('signup', {
+            message: "User Already Exists! Login or choose another user id", isLogged: req.session.logged});
+          }});
+    if(cond){
+    var newUser = {email: req.body.email, password: req.body.password, name:req.body.name, isAdmin: req.body.admin};
+    const createuser =  await createUser(newUser)
+    res.redirect("/");
+}
+    } 
+});
+
+// TOURNMANTES DETAILS
+app.get("/u-tournament-details/:t_id", async (req, res) => {
+  const id = req.params.t_id
+  //const name = req.params.t_name
+  const teams = await getTournamentsDetails(id)
+  res.render("u-tournament-details" ,{teams:teams, isLogged: req.session.logged });
+});
+
+// TEAM DETAILS 
+app.get("/view-team-details/:team_id/:tr_id", async (req, res) => {
+  const team_id = req.params.team_id
+  const tr_id = req.params.tr_id
+  const team = await getTeam(team_id,tr_id)
+  const players = await getPlayers(team_id)
+  res.render("view-team-details" ,{team: team[0] , players: players , isLogged: req.session.logged});
+  const coach_name = await getCoachName(team_id,tr_id)
+  console.log(coach_name)
+  res.render("view-team-details" ,{team: team[0] , players: players, coach_name: coach_name[0], isLogged: req.session.logged});
+});
+
+// MANAGE TEAMS
+app.get('/manage-teams', async function(req, res, next) { 
+  const teams = await getAllTeams()
+  console.log(teams)
+  res.render('manage-teams', { teams : teams, isLogged: req.session.logged});
+});
+
+// U TEAM DETAILS
+app.get("/u-team-details/:team_id/:tr_id", async (req, res) => {
+  const team_id = req.params.team_id
+  const tr_id = req.params.tr_id
+  const team = await getTeam(team_id,tr_id)
+  const players = await getPlayers(team_id)
+  res.render("u-team-details" ,{team: team[0] , players: players , isLogged: req.session.logged});
+  const coach_name = await getCoachName(team_id,tr_id)
+  console.log(coach_name)
+  //res.render("u-team-details" ,{team: team[0] , players: players, coach_name: coach_name[0], isLogged: req.session.logged});
 });
 
 
