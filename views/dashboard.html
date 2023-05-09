@@ -1,91 +1,68 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-
-    <!-- bootstrap css -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
-    <link rel="stylesheet" href="style/layout.css">
-</head>
-
+{% block content %}
 <body>
-
-<header>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">SOCCER@KFUPM</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul id="nav-bar-links" class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="dashboard">Dashboard</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link " href="manage-tournaments">Manage Tournaments</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link " href="manage-teams">Manage Teams</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="about">About</a>
-                    </li>
-                </ul>
-                <ul id="nav-bar-links" class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="logout"><button class="btn btn-primary mb-1">Log
-                                out</button></a>
-                    </li>
-                </ul>
+    {% if not isLogged %}
+    <main>
+        <div class="container">
+            <div class="row g-3 justify-content-center">
+                <div class="col-md-6 x-panel mt-5">
+                    <h1 class="mb-4">You Are Not Authrized!</h1>
+                </div>
             </div>
         </div>
-    </nav>
-</header>
-
+    </main>
+    {% else %}
     <main>
         <div class="container">
 
             <div class="row g-3 x-panel mt-4">
                 <h2>Dashboard</h2>
             </div>
-
-            <div class="row g-3 x-panel mt-4">
-                <h2>Track Tournament</h2>
-                <form action="#" method="get">
-                    <div class="col">
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control" name="number" placeholder="Tournament Number"
-                                aria-label="Tournament Number" aria-describedby="basic-addon1" required>
-                        </div>
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control" name="name" placeholder="Tournament Name"
-                                aria-label="Tournament Name" aria-describedby="basic-addon1" required>
-                        </div>
+            <div class="container">
+                <div class="row g-3 x-panel mt-4">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Password</th>
+                                    <th scope="col">Is Admin ?</th>
+                                    <th scope="col" class="w-250">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr> 
+                                    <td>{{user.name}}</td>
+                                    <td>{{user.email}}</td>
+                                    <td>**************</td>
+                                    {% if admin == 0 %}
+                                    <td>No</td>
+                                    {% else %}
+                                    <td>Yes</td>
+                                    {% endif %}
+                                    <td>
+                                        <a href="TODO/EDITPROFILE"><button
+                                                class="btn btn-primary mb-1">Edit</button></a>
+                                        <a href="TODO/DELETEPROFILE"><button
+                                                class="btn btn-danger mb-1">Delete</button></a>
+                                    </td>
+                                </tr> 
+                            </tbody>
+                        </table>
                     </div>
-                    <div class="col-12 d-flex">
-                        <button class="btn btn-primary mb-1 ml-auto" type="submit">See Tournament Details</button>
-                    </div>
-                </form>
-            </div>
+                </div>
 
 
         </div>
     </main>
 
-
+    {% endif %}
     <!-- bootstrap js -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
 </body>
 
-</html>
+{% endblock %}

@@ -2,43 +2,17 @@
 
 {% block content %}
 <body>
-
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">SOCCER@KFUPM</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul id="nav-bar-links" class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link" href="dashboard">Dashboard</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" href="manage-tournaments">Manage Tournaments</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="manage-teams">Manage Teams</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="about">About</a>
-                        </li>
-                    </ul>
-                    <ul id="nav-bar-links" class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="logout"><button class="btn btn-primary mb-1">Log
-                                    out</button></a>
-                        </li>
-                    </ul>
+    {% if not isLogged %}
+    <main>
+        <div class="container">
+            <div class="row g-3 justify-content-center">
+                <div class="col-md-6 x-panel mt-5">
+                    <h1 class="mb-4">You Are Not Authrized!</h1>
                 </div>
             </div>
-        </nav>
-    </header>
-
-
+        </div>
+    </main>
+    {% else %}
     <main>
         <div class="container">
             <div class="row g-3 x-panel mt-4">
@@ -63,7 +37,7 @@
                                 <td>{{tournament.start_date}}</td>
                                 <td>{{tournament.end_date}}</td>
                                 <td>
-                                    <a href="view-tournament-details/{{tournament.tr_id}}/{{tournament.tr_name}}"><button
+                                    <a href="u-tournament-details/{{tournament.tr_id}}"><button
                                             class="btn btn-dark mb-1">View</button></a>
                                     <a href="edit-tournament-details//{{tournament.tr_id}}{{tournament.tr_name}}"><button
                                             class="btn btn-primary mb-1">Edit</button></a>
@@ -109,7 +83,7 @@
             </div>
         </div>
     </main>
-
+    {% endif %}
 
     <!-- bootstrap js -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"

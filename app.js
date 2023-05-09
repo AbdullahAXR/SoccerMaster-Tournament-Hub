@@ -71,6 +71,7 @@ app.post('/login', async function(req, res){
   if (req.body.email === user.email) {
       if (req.body.password === user.password)
           cond = false;
+           req.session.name = user.name
            req.session.admin = user.admin;
            req.session.logged = true;
            req.session.email = user.email;
@@ -124,25 +125,24 @@ app.post('/signup', async function(req, res){
 
 
 // TEAM DETAILS 
-app.get("/view-team-details/:team_id/:tr_id", async (req, res) => {
-  const team_id = req.params.team_id
-  const tr_id = req.params.tr_id
-  const team = await getTeam(team_id,tr_id)
-  const players = await getPlayers(team_id)
-  // res.render("view-team-details" ,{team: team[0] , players: players , isLogged: req.session.logged});
-  const coach_name = await getCoachName(team_id,tr_id)
-  // console.log(coach_name)
-  res.render("view-team-details" ,{team: team[0] , players: players, coach_name: coach_name[0], isLogged: req.session.logged});
-});
+// app.get("/view-team-details/:team_id/:tr_id", async (req, res) => {
+//   const team_id = req.params.team_id
+//   const tr_id = req.params.tr_id
+//   const team = await getTeam(team_id,tr_id)
+//   const players = await getPlayers(team_id)
+//   // res.render("view-team-details" ,{team: team[0] , players: players , isLogged: req.session.logged});
+//   const coach_name = await getCoachName(team_id,tr_id)
+//   // console.log(coach_name)
+//   res.render("view-team-details" ,{team: team[0] , players: players, coach_name: coach_name[0], isLogged: req.session.logged});
+// });
 
 // MANAGE TEAMS
 app.get('/manage-teams', async function(req, res, next) { 
   const teams = await getAllTeams()
-  console.log(teams)
   res.render('manage-teams.html', { teams : teams, isLogged: req.session.logged});
 });
 
-// U TEAM DETAILS
+// TEAM DETAILS
 app.get("/u-team-details/:team_id/:tr_id", async (req, res) => {
   const team_id = req.params.team_id
   const tr_id = req.params.tr_id
@@ -158,13 +158,19 @@ app.get('/manage-tournaments', async (req, res) => {
   res.render('manage-tournaments', { tournaments : tournaments,  isLogged: req.session.logged});
 })
 
-// U TOURNAMENTS DETAILS
+// TOURNAMENTS DETAILS
 app.get('/u-tournament-details/:tr_id', async (req, res) => {
   const tr_id = req.params.tr_id
   const teams = await getTournamentsDetails(tr_id)
-  // const tr_name = await getTournamentName(tr_id)
-  // console.log(tr_name)
   res.render('u-tournament-details', { teams : teams,  isLogged: req.session.logged});
+})
+
+// DASHBOARD
+app.get('/dashboard', async (req, res) => {
+  res.render('dashboard', { user: {
+    name: req.session.name, admin: req.session.admin,
+    email: req.session.email
+  }, isLogged: req.session.logged});
 })
 
 app.listen(port, () => {

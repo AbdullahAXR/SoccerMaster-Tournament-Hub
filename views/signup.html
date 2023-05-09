@@ -1,6 +1,19 @@
 {% extends "base.html" %}
 
 {% block content %}
+<body>
+    {% if isLogged %}
+    <main>
+        <div class="container">
+            <div class="row g-3 justify-content-center">
+                <div class="col-md-6 x-panel mt-5">
+                    <h1 class="mb-4">You Are Already Logged In!</h1>
+                </div>
+            </div>
+        </div>
+    </main>
+    {% else %}
+
     <main>
         <div class="container">
             <div class="row g-3 justify-content-center">
@@ -57,7 +70,7 @@
             </div>
         </div>
     </main>
-
+    {% endif %}
 
     <!-- bootstrap js -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
