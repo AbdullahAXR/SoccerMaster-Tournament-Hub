@@ -5,20 +5,24 @@
         <div class="container">
             <div class="row g-3 x-panel mt-4">
                 <h1>Team {{team.team_id}}</h1>
-                <div class="col-md-6">
-                    <p><b>Name:</b> Team X</p>
-                    <p><b>Number:</b> {{team.team_id}}</p>
-                    <p><b>Address:</b> 283 Vallie Trail</p>
-                    <p><b>Website:</b> <a href="#">www.teamx.com</a></p>
-                    <p><b>Number of players:</b> 11</p>
-                </div>
+                 <div class="col-md-6">
+                     <p><b>Tournament ID:</b> {{team.tr_id}}</p>
+                     <p><b>Team group:</b> {{team.team_group}}</p>
+                     <p><b>Match played:</b> {{team.match_played}}</p>
+                     <p><b>Won:</b> {{team.won}}</p>
+                     <p><b>Draw:</b> {{team.draw}}</p>
+                     <p><b>Lost:</b> {{team.lost}}</p>
+                 </div>
 
-                <div class="col-md-6">
-                    <p><b>Contact Number:</b> 720-361-8966</p>
-                    <p><b>Email address:</b> <a href="mailto:teamx@tour.com">www.teamx.com</a></p>
-                    <p><b>Main Coach:</b> Buster Carroll</p>
-                    <p><b>Manager:</b> Pansy Schmitt</p>
-                </div>
+                 <div class="col-md-6">
+                     <p><b>Goal for:</b> {{team.goal_for}}</p>
+                     <p><b>Goal against:</b> {{team.goal_against}}</p>
+                     <p><b>Goal difference:</b> {{team.goal_deff}}</p>
+                     <p><b>Points:</b> {{team.points}}</p>
+                     <p><b>Group position:</b> {{team.group_position}}</p>
+                     <p><b>Coach :</b> {{coach_name.coach_name}}</p>
+
+                 </div>
                 <div class="col-md-6"></div>
             </div>
             <div class="row g-3 x-panel mt-4">
@@ -29,46 +33,24 @@
                         <thead>
                             <tr>
                                 <th scope="col">Name</th>
-                                <th scope="col">KFUMP ID</th>
+                                <th scope="col">Position</th>
                                 <th scope="col">Team Number</th>
                                 <th scope="col">Date of Birth</th>
-                                <th scope="col">Type</th>
-                                <th scope="col">Contact Number</th>
-                                <th scope="col">Email address</th>
-                                <th scope="col">Department</th>
+                                <th scope="col">Jersey Number</th>
+                                <th scope="col">Player ID</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Braulio Boehm</td>
-                                <td>1</td>
-                                <td>5</td>
-                                <td>May 11 2022</td>
-                                <td>Striker</td>
-                                <td>554-905-9980</td>
-                                <td><a href="mailto:Braulio@example.com">Braulio@example.com</a></td>
-                                <td>Football</td>
-                            </tr>
-                            <tr>
-                                <td>Braulio Boehm</td>
-                                <td>1</td>
-                                <td>5</td>
-                                <td>May 11 2022</td>
-                                <td>Striker</td>
-                                <td>554-905-9980</td>
-                                <td><a href="mailto:Braulio@example.com">Braulio@example.com</a></td>
-                                <td>Football</td>
-                            </tr>
-                            <tr>
-                                <td>Braulio Boehm</td>
-                                <td>1</td>
-                                <td>5</td>
-                                <td>May 11 2022</td>
-                                <td>Striker</td>
-                                <td>554-905-9980</td>
-                                <td><a href="mailto:Braulio@example.com">Braulio@example.com</a></td>
-                                <td>Football</td>
-                            </tr>
+                            {% for player in players %}
+                             <tr>
+                                 <td>{{player.player_name}}</td>
+                                 <td>{{player.position_id}}</td>
+                                 <td>{{player.team_id}}</td>
+                                 <td>{{player.dt_of_bir}}</td>
+                                 <td>{{player.jersey_no}}</td>
+                                 <td>{{player.player_id}}</td>
+                             </tr>
+                             {% endfor %}
                         </tbody>
                     </table>
                 </div>
