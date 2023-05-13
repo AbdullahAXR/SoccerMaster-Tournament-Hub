@@ -232,6 +232,13 @@ const editMatch = async (match_no, matchData) => {
   return match;
 };
 
+const getUsers = async (email) => {
+  const db = await getDbConnection();
+  const users = await db.all(`SELECT * FROM Auth WHERE email != '${email}'`)
+  await db.close();
+  return users;
+}
+
 module.exports = {
   getAllTournaments,
   getTournamentsDetails,
@@ -259,4 +266,5 @@ module.exports = {
   getTournamentName,
   getTournamentsDetailsForDelete,
   getAllMatches,
+  getUsers,
 };

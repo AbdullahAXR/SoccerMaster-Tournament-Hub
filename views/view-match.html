@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+
+ {% block content %}
+ <body>
+     <main>
+         <div class="container">
+             <div class="row g-3 x-panel mt-4 ">
+                 <h1>Match {{match.match_no}}</h1>
+                 <div class="col-md-6">
+                     <p><b>First Team:</b> {{match.team_id[0]}}</p>
+                     <p><b>Second Team:</b> {{match.team_id[1]}}</p>
+                     <p><b>Play Stage:</b> {{team.team_group}}</p>
+                     <p><b>Match played:</b> {{team.match_played}}</p>
+                     <p><b>Won:</b> {{team.won}}</p>
+                     <p><b>Draw:</b> {{team.draw}}</p>
+                     <p><b>Lost:</b> {{team.lost}}</p>
+
+                 </div>
+
+                 <div class="col-md-6">
+                     <p><b>Goal for:</b> {{team.goal_for}}</p>
+                     <p><b>Goal against:</b> {{team.goal_against}}</p>
+                     <p><b>Goal difference:</b> {{team.goal_deff}}</p>
+                     <p><b>Points:</b> {{team.points}}</p>
+                     <p><b>Group position:</b> {{team.group_position}}</p>
+                     <p><b>Coach :</b> {{coach_name.coach_name}}</p>
+
+                 </div>
+                 <div class="col-md-6"></div>
+             </div>
+
+             <div class="row g-3 x-panel mt-4">
+                 <h2>Players</h2>
+                 <div class="table-responsive">
+                     <table class="table">
+                         <thead>
+                             <tr>
+                                 <th scope="col">Name</th>
+                                 <th scope="col">Position</th>
+                                 <th scope="col">Team Number</th>
+                                 <th scope="col">Date of Birth</th>
+                                 <th scope="col">Jersey Number</th>
+                                 <th scope="col">Player ID</th>
+                                 <th scope="col" class="w-180">Actions</th>
+                             </tr>
+                         </thead>
+                         <tbody>
+                             {% for player in players %}
+                             <tr>
+                                 <td>{{player.player_name}}</td>
+                                 <td>{{player.position_to_play}}</td>
+                                 <td>{{player.team_id}}</td>
+                                 <td>{{player.dt_of_bir}}</td>
+                                 <td>{{player.jersey_no}}</td>
+                                 <td>{{player.player_id}}</td>
+                                 <td>
+                                     <a href="edit-player-details/{{player.player_id}}/{{player.team_id}}"><button
+                                             class="btn btn-primary mb-1">Edit</button></a>
+                                     <a href="delete-player-details/{{player.player_id}}/{{player.team_id}}"><button
+                                             class="btn btn-danger mb-1">Delete</button></a>
+                                 </td>
+                             </tr>
+                             {% endfor %}
+                         </tbody>
+                     </table>
+                 </div>
+                 <div class="col d-flex">
+                     <a class="ml-auto" href="manage-teams"><button class="btn btn-primary mb-1">Back to Manage
+                             Teams</button></a>
+                 </div>
+             </div>
+
+             <div class="row g-3 x-panel mt-4">
+                 <h2>Add New Player</h2>
+                 <form action="/addPlayer" method="post">
+                    <input type="text" name="team_id" value="{{team.team_id}}" style="display:none">
+                     <div class="col">
+                         <div class="form-floating mb-3">
+                             <input type="text" class="form-control" name="player_name" id="name" placeholder="Player Name"
+                                 aria-label="Player Name" aria-describedby="basic-addon1" required>
+                             <label for="name">Player Name</label>
+                         </div>
+                         <div class="form-floating mb-3">
+                             <input type="text" class="form-control" name="player_id" id="ID" placeholder="Player ID"
+                                 aria-label="Player ID" aria-describedby="basic-addon1" required>
+                             <label for="ID">Player ID</label>
+                         </div>
+                         <div class="form-floating mb-3">
+                             <input type="date" class="form-control" name="dt_of_bir" placeholder="date" aria-label="date"
+                                 aria-describedby="basic-addon1" required>
+                             <label for="date">Date of Birth</label>
+                         </div>
+                         <div class="form-floating mb-3">
+                             <select class="form-select" name="position_to_play" id="type" aria-label="type">
+                                 <option selected disabled>Select...</option>
+                                 <option value="GK">Goal Keeper</option>
+                                 <option value="FD">Striker</option>
+                                 <option value="DF">Defendor</option>
+                                 <option value="MF">MidLiner</option>
+                             </select>
+                             <label for="type">Type</label>
+                         </div>
+                         <div class="form-floating mb-3">
+                             <input type="text" class="form-control" name="jersey_no" id="department"
+                                 placeholder="department" aria-label="department" aria-describedby="basic-addon1"
+                                 required>
+                             <label for="department">Jersey No.</label>
+                         </div>
+                     </div>
+                     <div class="col-12 d-flex">
+                         <button class="btn btn-primary mb-1 ml-auto" type="submit">Create Player</button>
+                     </div>
+                 </form>
+             </div>
+
+         </div>
+     </main>
+
+     <!-- bootstrap js -->
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+         crossorigin="anonymous"></script>
+ </body>
+ {% endblock %} 
+
+ 

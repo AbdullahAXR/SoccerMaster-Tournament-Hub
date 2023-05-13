@@ -8,7 +8,7 @@ nunjucks = require('nunjucks');
 var cookieParser = require('cookie-parser');
 const { 
   getAllTournaments,getUserDetails, 
-  createUser ,getTournamentsDetails,
+  createUser ,getTournamentsDetails,getUsers,
   getTeam, getPlayers,getAllTeams,getCoachName,getTournamentName,getAllMatches, addTournament, addTeam,addPlayer
 } = require('./Models/DBModel')
 const port = 3000
@@ -189,10 +189,18 @@ app.post('/addPlayer', async (req, res) => {
 
 // DASHBOARD
 app.get('/dashboard', async (req, res) => {
+  if (req.session.admin == 0){
+    res.render('dashboard', { user: {
+      name: req.session.name, admin: req.session.admin,
+      email: req.session.email
+    },isLogged: req.session.logged});
+  } else {
+  const users = await getUsers(req.session.email);
+  console.log(users)
   res.render('dashboard', { user: {
     name: req.session.name, admin: req.session.admin,
     email: req.session.email
-  }, isLogged: req.session.logged});
+  },users: users ,isLogged: req.session.logged});}
 })
 
 app.listen(port, () => {
