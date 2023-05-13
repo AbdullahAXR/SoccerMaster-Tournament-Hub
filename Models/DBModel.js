@@ -110,7 +110,7 @@ const deleteTeam = async (team_id, tr_id) => {
 
 const deletePlayer = async (team_id, player_id) => {
   const db = await getDbConnection();
-  const player = await db.all(`DELETE * FROM player 
+  const player = await db.all(`DELETE FROM player 
   WHERE player.team_id =' ${team_id}' AND player_id =' ${player_id}'`);
   await db.close();
   return player;

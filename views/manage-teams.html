@@ -24,7 +24,7 @@
                          <thead>
                              <tr>
                                  <th scope="col">ID</th>
-                                 <th scope="col">Tournament Name</th>
+                                 <th scope="col">Tournament Number</th>
                                  <th scope="col">Team group</th>
                                  <th scope="col">Match played</th>
                                  <th scope="col">Won</th>
@@ -41,14 +41,15 @@
                          <tbody id="Manage-teams">
                              {% for team in teams %}
                              <tr>
-                                 <th scope="row">1</th>
                                  <td>{{team.team_id}}</td>
+                                 <!-- <td>{{team.tr_name}}</td> -->
                                  <td>{{team.tr_id}}</td>
                                  <td>{{team.team_group}}</td>
                                  <td>{{team.match_played}}</td>
                                  <td>{{team.won}}</td>
                                  <td>{{team.draw}}</td>
                                  <td>{{team.lost}}</td>
+                                 <td>{{team.goal_for}}</td>
                                  <td>{{team.goal_against}}</td>
                                  <td>{{team.goal_diff}}</td>
                                  <td>{{team.points}}</td>
