@@ -20,17 +20,17 @@
                 <form action="#" method="post">
                     <div class="col">
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control" name="ID" id="ID" placeholder="team ID"
+                            <input type="text" class="form-control" name="team_id" id="ID" placeholder="team ID"
                                 aria-label="team ID" aria-describedby="basic-addon1" value="team {{team.team_id}}" disabled required>
                             <label for="name">Team ID</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control" name="Tournament ID" id="Tournament ID" placeholder="Tournament ID"
+                            <input type="text" class="form-control" name="tr_id" id="Tournament ID" placeholder="Tournament ID"
                                 aria-label="Tournament ID" aria-describedby="basic-addon1" value="{{team.tr_id}}" disabled required>
                             <label for="number">Tournament ID</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control" name="team group" id="team group"
+                            <input type="text" class="form-control" name="team_group" id="team group"
                                 placeholder="team group" aria-label="team group" aria-describedby="basic-addon1"
                                 value="{{team.team_group}}" disabled required>
                             <label for="group">Team Group</label>
@@ -42,13 +42,13 @@
                             <label for="match_played">Match played</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control" name="Won" id="Won" placeholder="Won"
+                            <input type="text" class="form-control" name="won" id="Won" placeholder="Won"
                                 aria-label="Won" aria-describedby="basic-addon1" value="{{team.won}}"
                                 disabled required>
                             <label for="Won">Won</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="email" class="form-control" name="Draw" id="Draw" placeholder="Draw"
+                            <input type="email" class="form-control" name="wraw" id="Draw" placeholder="Draw"
                                 aria-label="Draw" aria-describedby="basic-addon1" value="{{team.draw}}" disabled
                                 required>
                             <label for="draw">draw</label>

@@ -31,6 +31,7 @@ const {
   editMatch,
   getTournamentName,
   getTournamentsDetailsForDelete,
+  getPlayer,
 } = require('./Models/DBModel')
 const port = 3000
 
@@ -190,7 +191,6 @@ app.get('/u-tournament-details/:tr_id', async (req, res) => {
 app.get('/delete-tournament-details/:tr_id', async (req, res) => {
   const tr_id = req.params.tr_id
   const tournament = await getTournamentsDetailsForDelete(tr_id)
-  console.log(tournament)
   res.render('delete-tournament-details', { tournament : tournament[0],  isLogged: req.session.logged});
 })
 
@@ -208,7 +208,6 @@ app.get('/delete-team-details/:team_id/:tr_id/', async (req, res) => {
   const team_id = req.params.team_id
 
   const team = await getTeam(team_id,tr_id)
-  console.log(team)
   res.render('delete-team-details', { team : team[0],  isLogged: req.session.logged});
 })
 
@@ -220,6 +219,96 @@ app.get('/delete-team-details/:team_id/:tr_id/:Confirm', async function(req, res
   
 });
 
+//  Delete Player
+app.get('/delete-player-details/:team_id/:player_id/:tr_id', async (req, res) => {
+  const team_id = req.params.team_id
+  const player_id = req.params.player_id
+  const tr_id = req.params.tr_id
+
+  const player = await getPlayer(team_id,player_id)
+  res.render('delete-player-details', { player : player[0], tr_id:tr_id ,  isLogged: req.session.logged});
+})
+
+app.get('/delete-player-details/:team_id/:player_id/:tr_id/:Confirm', async function(req, res){
+
+  const team_id = req.params.team_id
+  const player_id = req.params.player_id
+  const tr_id = req.params.tr_id
+  const Confirm = req.params.Confirm
+  if(Confirm == "true"){
+    const player = await deletePlayer(team_id,player_id)
+    console.log(player)
+  }
+  res.redirect("/team-details/"+team_id+"/"+tr_id);
+  
+});
+
+//  Edit Tournament
+app.get('/edit-tournament-details/:tr_id', async (req, res) => {
+  const tr_id = req.params.tr_id
+  const tournament = await getTournamentsDetailsForDelete(tr_id)
+  res.render('edit-tournament-details', { tournament : tournament[0],  isLogged: req.session.logged});
+})
+
+app.post('/edit-tournament-details/:tr_id', async function(req, res){
+  const tr_id = req.params.tr_id
+  const tr_name = req.body.name
+  const start_date = req.body.start_date
+  const end_date = req.body.end_date
+
+
+  const tournament = await editTournament(tr_id,tr_name,start_date,end_date)
+  res.redirect("/manage-tournaments");
+
+});
+
+//  Edit team
+app.get('/edit-team-details/:team_id/:tr_id', async (req, res) => {
+  const tr_id = req.params.tr_id
+  const team_id = req.params.team_id
+  const team = await getTeam(team_id,tr_id)
+  console.log(team)
+  res.render('edit-team-details', { team : team[0],  isLogged: req.session.logged});
+})
+
+app.post('/edit-team-details/:team_id/:tr_id', async function(req, res){
+  const team_id = req.params.team_id
+  const tr_id = req.params.tr_id
+  console.log(req.body.team_group)
+  console.log(req.body.match_played)
+  console.log(req.body.won)
+  const tournament = await editTeam(team_id,tr_id,req.body)
+  res.redirect("/manage-team");
+
+});
+// Edit Player
+app.get('/edit-player-details/:team_id/:player_id/:tr_id', async (req, res) => {
+  const tr_id = req.params.tr_id
+  const team_id = req.params.team_id
+  const player_id = req.params.player_id
+  const player = await getPlayer(team_id,player_id)
+  console.log(player)
+  res.render('edit-player-details', { player : player[0],  isLogged: req.session.logged});
+})
+
+app.post('/edit-player-details/:team_id/:player_id/:tr_id', async function(req, res){
+  const team_id = req.params.team_id
+  const tr_id = req.params.tr_id
+  const player_id = req.params.player_id
+  const player = await editPlayer(player_id,req.body)
+  res.redirect("/team-details/"+team_id+"/"+tr_id);
+
+});
+
+// team details
+app.get("/team-details/:team_id/:tr_id", async (req, res) => {
+  const team_id = req.params.team_id
+  const tr_id = req.params.tr_id
+  const team = await getTeam(team_id,tr_id)
+  const players = await getPlayers(team_id)
+  const coach_name = await getCoachName(team_id,tr_id)
+  res.render("team-details" ,{team: team[0] , players: players, coach_name: coach_name[0], isLogged: req.session.logged});
+});
 // DASHBOARD
 app.get('/dashboard', async (req, res) => {
   res.render('dashboard', { user: {
