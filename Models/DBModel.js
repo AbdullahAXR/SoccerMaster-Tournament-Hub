@@ -73,7 +73,7 @@ const getPlayers = async (team_id) => {
 
 const deleteTournament = async (tr_id) => {
   const db = await getDbConnection();
-  const tournaments = await db.all(`DELETE * FROM tournament 
+  const tournaments = await db.all(`DELETE FROM tournament 
   WHERE tr_id = '${tr_id}'`);
   await db.close();
   return tournaments;
@@ -81,7 +81,7 @@ const deleteTournament = async (tr_id) => {
 
 const deleteTeam = async (team_id, tr_id) => {
   const db = await getDbConnection();
-  const team = await db.all(`DELETE * FROM team 
+  const team = await db.all(`DELETE FROM team 
   WHERE team_id = '${team_id}' AND tr_id = '${tr_id}'`);
   await db.close();
   return team;
@@ -89,7 +89,7 @@ const deleteTeam = async (team_id, tr_id) => {
 
 const deletePlayer = async (team_id, player_id) => {
   const db = await getDbConnection();
-  const player = await db.all(`DELETE * FROM player 
+  const player = await db.all(`DELETE FROM player 
   WHERE player.team_id =' ${team_id}' AND player_id =' ${player_id}'`);
   await db.close();
   return player;
@@ -97,7 +97,7 @@ const deletePlayer = async (team_id, player_id) => {
 
 const deleteMatch = async (match_no) => {
   const db = await getDbConnection();
-  const match = await db.all(`DELETE * FROM match_played WHERE match_no = '${match_no}'`);
+  const match = await db.all(`DELETE FROM match_played WHERE match_no = '${match_no}'`);
   await db.close();
   return match;
 };
