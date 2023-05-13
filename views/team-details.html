@@ -65,6 +65,48 @@
                     <a class="ml-auto" href="/"><button class="btn btn-primary mb-1">Back To Home</button></a>
                 </div>
             </div>
+            <div class="row g-3 x-panel mt-4">
+                <h2>Add New Player</h2>
+                <form action="/addPlayer" method="post">
+                   <input type="text" name="team_id" value="{{team.team_id}}" style="display:none">
+                    <div class="col">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" name="player_name" id="name" placeholder="Player Name"
+                                aria-label="Player Name" aria-describedby="basic-addon1" required>
+                            <label for="name">Player Name</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" name="player_id" id="ID" placeholder="Player ID"
+                                aria-label="Player ID" aria-describedby="basic-addon1" required>
+                            <label for="ID">Player ID</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="date" class="form-control" name="dt_of_bir" placeholder="date" aria-label="date"
+                                aria-describedby="basic-addon1" required>
+                            <label for="date">Date of Birth</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <select class="form-select" name="position_to_play" id="type" aria-label="type">
+                                <option selected disabled>Select...</option>
+                                <option value="GK">Goal Keeper</option>
+                                <option value="FD">Striker</option>
+                                <option value="DF">Defendor</option>
+                                <option value="MF">MidLiner</option>
+                            </select>
+                            <label for="type">Type</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" name="jersey_no" id="department"
+                                placeholder="department" aria-label="department" aria-describedby="basic-addon1"
+                                required>
+                            <label for="department">Jersey No.</label>
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex">
+                        <button class="btn btn-primary mb-1 ml-auto" type="submit">Create Player</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </main>
 

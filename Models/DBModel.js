@@ -172,11 +172,11 @@ const addPlayer = async (playerData) => {
 const addMatch = async (matchData) => {
   const db = await getDbConnection();
   const match =
-    await db.all(`INSERT INTO match_played (match_no,play_stage,play_date,results,decided_by,goal_score,venue_id,referee_id,audience,player_of_match,stop1_sec,stop2_sec)
-  VALUES ('${matchData.match_no}','${matchData.play_stage}','${matchData.play_date}','
-  ${matchData.results},${matchData.decided_by},${matchData.goal_score},
-  ${matchData.venue_id},${matchData.referee_id},${matchData.audience},
-  ${matchData.player_of_match},${matchData.stop1_sec},${matchData.stop2_sec} `);
+    await db.all(`INSERT INTO match_details (match_no,play_stage,tr_id,decided_by,team_id,win_lose,goal_score,penalty_score,asst_ref,player_gk)
+  VALUES ('${matchData.match_no}','${matchData.play_stage}','${matchData.tr_id}','0','
+  ${matchData.team_id}','${matchData.win_lose}',
+  '${matchData.goal_score}','${matchData.penalty_score}','${matchData.asst_ref}',
+  '${matchData.player_gk}') `);
   await db.close();
   return match;
 };
@@ -211,9 +211,9 @@ const editTeam = async (team_id,tr_id, teamData) => {
   const db = await getDbConnection();
   const team = await db.run(`UPDATE team
   SET team_id = '${team_id}' ,tr_id = '${tr_id}' ,
-  team_group = '${teamData.team_group}' ,match_played = '${teamData.match_played},
+  team_group = '${teamData.team_group}' ,match_played = '${teamData.match_played}',
   won = '${teamData.won}',draw = '${teamData.draw}',lost = '${teamData.lost}',
-  goal_for = '${teamData.goal_for}',goal_against = '${teamData.goal_against}',team_diff = '${teamData.team_diff}'
+  goal_for = '${teamData.goal_for}',goal_against = '${teamData.goal_against}',goal_diff = '${teamData.goal_diff}'
   ,points = '${teamData.points}',group_position = '${teamData.group_position}'
   WHERE team_id = '${team_id}'`);
   await db.close();
@@ -252,6 +252,12 @@ const getUsers = async (email) => {
   return users;
 }
 
+const getMatch = async (match_no,team_id) => {
+  const db = await getDbConnection();
+  const users = await db.all(`SELECT * FROM match_details WHERE match_no == '${match_no} ' AND team_id = '${team_id}'`)
+  await db.close();
+  return users;
+}
 module.exports = {
   getAllTournaments,
   getTournamentsDetails,
@@ -281,4 +287,5 @@ module.exports = {
   getTournamentsDetailsForDelete,
   getAllMatches,
   getUsers,
+  getMatch
 };

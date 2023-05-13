@@ -29,15 +29,15 @@ const {
   editTeam,
   editPlayer,
   editMatch,
+  getMatch,
   getTournamentName,
   getTournamentsDetailsForDelete,
   getPlayer, 
-  createUser,
   getUsers,
-  getTournamentName,
   getAllMatches
-} = require('./Models/DBModel')
-const port = 3000
+} = require('./Models/DBModel');
+const { render } = require('nunjucks');
+const port = 5050
 
 //Cookie
 app.set('trust proxy', 1) 
@@ -189,21 +189,29 @@ app.get('/u-tournament-details/:tr_id', async (req, res) => {
   const tr_id = req.params.tr_id
   const matches = await getAllMatches(tr_id)
   const teams = await getTournamentsDetails(tr_id)
-  res.render('u-tournament-details', { teams : teams,  isLogged: req.session.logged, matches: matches});
+  res.render('u-tournament-details', { teams : teams,  isLogged: req.session.logged, matches: matches, tournament_name:tr_id});
 })
 
+// EDIT MATCH 
+app.get('/edit-match-details/:match_no/:team_no', async (req, res) => {
+  const match_no = req.params.match_no
+  const team_no = req.params.team_no
+  const match = await getMatch(match_no,team_no)
+  render('edit-match-details', { match : match , isLogged : req.session.logged})
+});
 
 // CREATE TOURNAMENTS
 app.post('/addTour', async (req, res) => {
   const body = req.body;
   const createTour = await addTournament(body);
   res.redirect('/');
+});
 
 //  Delete TOURNAMENT
 app.get('/delete-tournament-details/:tr_id', async (req, res) => {
   const tr_id = req.params.tr_id
-  const tournament = await getTournamentsDetailsForDelete(tr_id)
-  res.render('delete-tournament-details', { tournament : tournament[0],  isLogged: req.session.logged});
+  const deleteTour = await deleteTournament(tr_id);
+  res.redirect('/', { isLogged: req.session.logged});
 
 })
 
@@ -218,6 +226,13 @@ app.post('/addTeam', async (req, res) => {
 app.post('/addPlayer', async (req, res) => {
   const body = req.body;
   const createPlayer = await addPlayer(body);
+  res.redirect('/');
+})
+
+// CREATE MATCH
+app.post('/addMatch', async (req, res) => {
+  const body = req.body;
+  const createPlayer = await addMatch(body);
   res.redirect('/');
 })
 
@@ -297,7 +312,7 @@ app.post('/edit-team-details/:team_id/:tr_id', async function(req, res){
   console.log(req.body.match_played)
   console.log(req.body.won)
   const tournament = await editTeam(team_id,tr_id,req.body)
-  res.redirect("/manage-team");
+  res.redirect("/manage-teams");
 
 });
 // Edit Player
@@ -347,3 +362,4 @@ app.get('/dashboard', async (req, res) => {
 app.listen(port, () => {
     console.log(`App is listening at http://localhost:${port}`)
 });
+
