@@ -23,6 +23,13 @@ const getTournamentsDetails = async (id) => {
   return teams;
 };
 
+const getTournamentsDetailsForDelete = async (id) => {
+  const db = await getDbConnection();
+  const teams = await db.all(`SELECT * FROM tournament WHERE tournament.tr_id = ${id}`);
+  await db.close();
+  return teams;
+};
+
 const getUserDetails = async (email) => {
   const db = await getDbConnection();
   const user = await db.all(`SELECT * FROM Auth WHERE email = '${email}'`);
@@ -39,14 +46,14 @@ const createUser = async (User) => {
   return meta;
 };
 
-const getCoachName = async (team_id, tr_id) => {
-  const db = await getDbConnection();
-  const coach = await db.all(
-    "SELECT * FROM team JOIN coach join team_coaches WHERE team.team_id = 1214 AND team.team_id = team_coaches.team_id AND coach.coach_id = team_coaches.coach_id"
-  );
-  await db.close();
-  return coach;
-};
+// const getCoachName = async (team_id, tr_id) => {
+//   const db = await getDbConnection();
+//   const coach = await db.all(
+//     "SELECT * FROM team JOIN coach join team_coaches WHERE team.team_id = 1214 AND team.team_id = team_coaches.team_id AND coach.coach_id = team_coaches.coach_id"
+//   );
+//   await db.close();
+//   return coach;
+// };
 
 const getAllTeams = async () => {
   const db = await getDbConnection();
@@ -69,12 +76,26 @@ const getPlayers = async (team_id) => {
   return players;
 };
 
+const getCoachName = async (team_id,tr_id) =>{
+  const db = await getDbConnection();
+  const coach = await db.all(`SELECT * FROM team JOIN coach join team_coaches WHERE team.team_id = '${team_id}' AND team.team_id = team_coaches.team_id AND team_coaches.tr_id = '${tr_id}'`)
+  await db.close()
+  return coach
+}
+
+const getTournamentName = async (tr_id) =>{
+  const db = await getDbConnection();
+  const tr_name = await db.all(`SELECT * FROM tournament WHERE tr_id = '${tr_id}'`)
+  await db.close()
+  return tr_name
+}
 // const getMatch = async (match_no) => {};
 
 const deleteTournament = async (tr_id) => {
   const db = await getDbConnection();
   const tournaments = await db.all(`DELETE FROM tournament 
   WHERE tr_id = '${tr_id}'`);
+
   await db.close();
   return tournaments;
 };
@@ -228,4 +249,7 @@ module.exports = {
   editTeam,
   editPlayer,
   editMatch,
+  getCoachName,
+  getTournamentName,
+  getTournamentsDetailsForDelete,
 };

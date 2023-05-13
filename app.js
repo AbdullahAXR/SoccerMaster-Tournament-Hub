@@ -7,9 +7,30 @@ var upload = multer();
 nunjucks = require('nunjucks');
 var cookieParser = require('cookie-parser');
 const { 
-  getAllTournaments,getUserDetails, 
-  createUser ,getTournamentsDetails,
-  getTeam, getPlayers,getAllTeams,getCoachName,getTournamentName,
+  getAllTournaments,
+  getTournamentsDetails,
+  getUserDetails,
+  createUser,
+  getCoachName,
+  getAllTeams,
+  getTeam,
+  getPlayers,
+  deleteMatch,
+  deletePlayer,
+  deleteTeam,
+  deleteTournament,
+  addTournament,
+  addTeam,
+  addPlayer,
+  addMatch,
+  addRefree,
+  addTeamCoach,
+  editTournament,
+  editTeam,
+  editPlayer,
+  editMatch,
+  getTournamentName,
+  getTournamentsDetailsForDelete,
 } = require('./Models/DBModel')
 const port = 3000
 
@@ -164,6 +185,22 @@ app.get('/u-tournament-details/:tr_id', async (req, res) => {
   const teams = await getTournamentsDetails(tr_id)
   res.render('u-tournament-details', { teams : teams,  isLogged: req.session.logged});
 })
+
+// TOURNAMENTS Delete
+app.get('/delete-tournament-details/:tr_id', async (req, res) => {
+  const tr_id = req.params.tr_id
+  const tournament = await getTournamentsDetailsForDelete(tr_id)
+  console.log(tournament)
+  res.render('delete-tournament-details', { tournament : tournament[0],  isLogged: req.session.logged});
+})
+
+app.get('/delete-tournament-details/:tr_id/:Confirm', async function(req, res){
+  if(req.params.Confirm == "true"){
+  const tournament = await deleteTournament(req.params.tr_id)
+  }
+  res.redirect("/manage-tournaments");
+  
+});
 
 // DASHBOARD
 app.get('/dashboard', async (req, res) => {
