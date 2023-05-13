@@ -166,11 +166,20 @@ app.get('/u-tournament-details/:tr_id', async (req, res) => {
   res.render('u-tournament-details', { teams : teams,  isLogged: req.session.logged, matches: matches});
 })
 
+
 // CREATE TOURNAMENTS
 app.post('/addTour', async (req, res) => {
   const body = req.body;
   const createTour = await addTournament(body);
   res.redirect('/');
+
+//  Delete TOURNAMENT
+app.get('/delete-tournament-details/:tr_id', async (req, res) => {
+  const tr_id = req.params.tr_id
+  const tournament = await getTournamentsDetailsForDelete(tr_id)
+  console.log(tournament)
+  res.render('delete-tournament-details', { tournament : tournament[0],  isLogged: req.session.logged});
+
 })
 
 // CREATE TEAM
@@ -186,6 +195,24 @@ app.post('/addPlayer', async (req, res) => {
   const createPlayer = await addPlayer(body);
   res.redirect('/');
 })
+
+//  Delete Team
+app.get('/delete-team-details/:team_id/:tr_id/', async (req, res) => {
+  const tr_id = req.params.tr_id
+  const team_id = req.params.team_id
+
+  const team = await getTeam(team_id,tr_id)
+  console.log(team)
+  res.render('delete-team-details', { team : team[0],  isLogged: req.session.logged});
+})
+
+app.get('/delete-team-details/:team_id/:tr_id/:Confirm', async function(req, res){
+  if(req.params.Confirm == "true"){
+  const tournament = await deleteTeam(req.params.team_id,req.params.tr_id)
+  }
+  res.redirect("/manage-teams");
+  
+});
 
 // DASHBOARD
 app.get('/dashboard', async (req, res) => {
