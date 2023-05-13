@@ -288,14 +288,16 @@ app.get('/edit-player-details/:team_id/:player_id/:tr_id', async (req, res) => {
   const player_id = req.params.player_id
   const player = await getPlayer(team_id,player_id)
   console.log(player)
-  res.render('edit-player-details', { player : player[0],  isLogged: req.session.logged});
+  res.render('edit-player-details', { player : player[0],tr_id , isLogged: req.session.logged});
 })
 
 app.post('/edit-player-details/:team_id/:player_id/:tr_id', async function(req, res){
   const team_id = req.params.team_id
   const tr_id = req.params.tr_id
   const player_id = req.params.player_id
-  const player = await editPlayer(player_id,req.body)
+  console.log(req.body)
+  const player = await editPlayer(player_id,team_id,req.body)
+
   res.redirect("/team-details/"+team_id+"/"+tr_id);
 
 });
