@@ -1,128 +1,109 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Team Details</title>
-
-    <!-- bootstrap css -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
-    <link rel="stylesheet" href="style/layout.css">
-
-</head>
-
+{% block content %}
 <body>
-
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">SOCCER@KFUPM</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                    aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul id="nav-bar-links" class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="dashboard">Dashboard</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="manage-tournaments">Manage Tournaments</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" href="manage-teams">Manage Teams</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="about">About</a>
-                        </li>
-                    </ul>
-                    <ul id="nav-bar-links" class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="logout"><button class="btn btn-primary mb-1">Log
-                                    out</button></a>
-                        </li>
-                    </ul>
+    {% if not isLogged %}
+    <main>
+        <div class="container">
+            <div class="row g-3 justify-content-center">
+                <div class="col-md-6 x-panel mt-5">
+                    <h1 class="mb-4">You Are Not Authrized!</h1>
                 </div>
             </div>
-        </nav>
-    </header>
-
+        </div>
+    </main>
+    {% else %}
     <main>
         <div class="container">
             <div class="row g-3 x-panel mt-4">
-                <h2>Edit Team X</h2>
+                <h2>Delete Team {{team.team_id}}</h2>
                 <form action="#" method="post">
                     <div class="col">
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control" name="name" id="name" placeholder="Team Name"
-                                aria-label="Team Name" aria-describedby="basic-addon1" value="Team X" disabled required>
-                            <label for="name">Team Name</label>
+                            <input type="text" class="form-control" name="ID" id="ID" placeholder="team ID"
+                                aria-label="team ID" aria-describedby="basic-addon1" value="team {{team.team_id}}" disabled required>
+                            <label for="name">Team ID</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control" name="number" id="number" placeholder="Team Number"
-                                aria-label="Team Number" aria-describedby="basic-addon1" value="1" disabled required>
-                            <label for="number">Team Number</label>
+                            <input type="text" class="form-control" name="Tournament ID" id="Tournament ID" placeholder="Tournament ID"
+                                aria-label="Tournament ID" aria-describedby="basic-addon1" value="{{team.tr_id}}" disabled required>
+                            <label for="number">Tournament ID</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control" name="address" id="address"
-                                placeholder="Team Address" aria-label="Team Address" aria-describedby="basic-addon1"
-                                value="283 Vallie Trail" disabled required>
-                            <label for="address">Address</label>
+                            <input type="text" class="form-control" name="team group" id="team group"
+                                placeholder="team group" aria-label="team group" aria-describedby="basic-addon1"
+                                value="{{team.team_group}}" disabled required>
+                            <label for="group">Team Group</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control" name="website" id="website" placeholder="Website"
-                                aria-label="Website" aria-describedby="basic-addon1" value="www.teamx.com" disabled
+                            <input type="text" class="form-control" name="match_played" id="match_played" placeholder="match_played"
+                                aria-label="match_played" aria-describedby="basic-addon1" value="{{team.match_played}}" disabled
                                 required>
-                            <label for="Website">Website</label>
+                            <label for="match_played">Match played</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control" name="phone" id="phone" placeholder="Contact Number"
-                                aria-label="Contact Number" aria-describedby="basic-addon1" value="720-361-8966"
+                            <input type="text" class="form-control" name="Won" id="Won" placeholder="Won"
+                                aria-label="Won" aria-describedby="basic-addon1" value="{{team.won}}"
                                 disabled required>
-                            <label for="phone">Contact Number</label>
+                            <label for="Won">Won</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="email" class="form-control" name="email" id="email" placeholder="Email"
-                                aria-label="Email" aria-describedby="basic-addon1" value="teamx.example.com" disabled
+                            <input type="email" class="form-control" name="Draw" id="Draw" placeholder="Draw"
+                                aria-label="Draw" aria-describedby="basic-addon1" value="{{team.draw}}" disabled
                                 required>
-                            <label for="email">Email</label>
+                            <label for="draw">draw</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="number" min="11" class="form-control" name="number-of-players"
-                                placeholder="Number of Players" aria-label="Number of Players"
-                                aria-describedby="basic-addon1" value="11" disabled required>
-                            <label for="number-of-players">Number of Players</label>
+                            <input type="number" class="form-control" name="Lost"
+                                placeholder="Lost" aria-label="Lost"
+                                aria-describedby="basic-addon1" value="{{team.lost}}" disabled required>
+                            <label for="Lost">Lost</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control" name="coach" id="coach" placeholder="Coach Name"
-                                aria-label="Coach Name" aria-describedby="basic-addon1" value="Buster Carroll" disabled
+                            <input type="text" class="form-control" name="goal_for" id="goal_for" placeholder="goal_for"
+                                aria-label="goal_for" aria-describedby="basic-addon1" value="{{team.goal_for}}" disabled
                                 required>
-                            <label for="coach">Coach Name</label>
+                            <label for="goal_for">Goal For</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control" name="manager" id="manager"
-                                placeholder="Manager Name" aria-label="Manager Name" aria-describedby="basic-addon1"
-                                value="Pansy Schmitt" disabled required>
-                            <label for="manager">Manager Name</label>
+                            <input type="text" class="form-control" name="goal_against" id="goal_against"
+                                placeholder="goal_against" aria-label="goal_against" aria-describedby="basic-addon1"
+                                value="{{team.goal_against}}" disabled required>
+                            <label for="goal_against">Goal Against</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" name="goal_diff" id="goal_diff"
+                                placeholder="goal_diff" aria-label="goal_diff" aria-describedby="basic-addon1"
+                                value="{{team.goal_diff}}" disabled required>
+                            <label for="goal_diff">Goal Difference</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" name="Points" id="Points"
+                                placeholder="Points" aria-label="Points" aria-describedby="basic-addon1"
+                                value="{{team.points}}" disabled required>
+                            <label for="Points">Points</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" name=group_position" id="group_position"
+                                placeholder="group_position" aria-label="group_position" aria-describedby="basic-addon1"
+                                value="{{team.group_position}}" disabled required>
+                            <label for="group_position">Group Position</label>
                         </div>
 
                     </div>
                     <div class="col-12 d-flex">
-                        <a class="ml-auto me-3" href="manage-teams"><button type="button"
-                                class="btn btn-primary mb-1">
-                                Back to Manage Teams</button></a>
-                        <button class="btn btn-danger" type="submit">Confirm Deletion</button>
+                        <a class="ml-auto me-3" href="/delete-team-details/{{team.team_id}}/{{team.tr_id}}/false"><button type="button"
+                            class="btn btn-primary mb-1">Back To
+                            Manage Teams</button></a>
+                    <a class="ml-auto me-3" href="/delete-team-details/{{team.team_id}}/{{team.tr_id}}/true"><button type="button"
+                                class="btn btn-danger mb-1">Confirm Deletion</button></a>
                     </div>
                 </form>
             </div>
         </div>
     </main>
 
+    {% endif %}
     <!-- bootstrap js -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
@@ -130,3 +111,4 @@
 </body>
 
 </html>
+{% endblock %}

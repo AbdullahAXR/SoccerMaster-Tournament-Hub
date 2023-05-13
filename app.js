@@ -186,7 +186,7 @@ app.get('/u-tournament-details/:tr_id', async (req, res) => {
   res.render('u-tournament-details', { teams : teams,  isLogged: req.session.logged});
 })
 
-// TOURNAMENTS Delete
+//  Delete TOURNAMENT
 app.get('/delete-tournament-details/:tr_id', async (req, res) => {
   const tr_id = req.params.tr_id
   const tournament = await getTournamentsDetailsForDelete(tr_id)
@@ -199,6 +199,24 @@ app.get('/delete-tournament-details/:tr_id/:Confirm', async function(req, res){
   const tournament = await deleteTournament(req.params.tr_id)
   }
   res.redirect("/manage-tournaments");
+  
+});
+
+//  Delete Team
+app.get('/delete-team-details/:team_id/:tr_id/', async (req, res) => {
+  const tr_id = req.params.tr_id
+  const team_id = req.params.team_id
+
+  const team = await getTeam(team_id,tr_id)
+  console.log(team)
+  res.render('delete-team-details', { team : team[0],  isLogged: req.session.logged});
+})
+
+app.get('/delete-team-details/:team_id/:tr_id/:Confirm', async function(req, res){
+  if(req.params.Confirm == "true"){
+  const tournament = await deleteTeam(req.params.team_id,req.params.tr_id)
+  }
+  res.redirect("/manage-teams");
   
 });
 
