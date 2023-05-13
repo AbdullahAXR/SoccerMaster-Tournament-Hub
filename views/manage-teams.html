@@ -55,7 +55,7 @@
                                  <td>{{team.points}}</td>
                                  <td>{{team.group_position}}</td>
                                  <td>
-                                     <a href="u-team-details/{{team.team_id}}/{{team.tr_id}}"><button class="btn btn-dark mb-1">View</button></a>
+                                     <a href="view-team-details/{{team.team_id}}/{{team.tr_id}}"><button class="btn btn-dark mb-1">View</button></a>
                                      <a href="edit-team-details/{{team.team_id}}/{{team.tr_id}}"><button
                                              class="btn btn-primary mb-1">Edit</button></a>
                                      <a href="delete-team-details/{{team.team_id}}/{{team.tr_id}}"><button
@@ -71,56 +71,74 @@
 
              <div class="row g-3 x-panel mt-4">
                  <h2>Create New Team</h2>
-                 <form action="#" method="post">
+                 <form action="/addTeam" method="post">
                      <div class="col">
                          <div class="form-floating mb-3">
-                             <input type="text" class="form-control" name="name" id="name" placeholder="Team Name"
-                                 aria-label="Team Name" aria-describedby="basic-addon1" required>
-                             <label for="name">Team Name</label>
-                         </div>
-                         <div class="form-floating mb-3">
-                             <input type="text" class="form-control" name="number" id="number" placeholder="Team Number"
+                             <input type="text" class="form-control" name="team_id" id="number" placeholder="Team Number"
                                  aria-label="Team Number" aria-describedby="basic-addon1" required>
                              <label for="number">Team Number</label>
                          </div>
                          <div class="form-floating mb-3">
-                             <input type="text" class="form-control" name="address" id="address"
+                            <input type="text" class="form-control" name="tr_id" id="number" placeholder="Team Number"
+                                aria-label="Team Number" aria-describedby="basic-addon1" required>
+                            <label for="number">Tournament Number</label>
+                        </div>
+                         <div class="form-floating mb-3">
+                             <input type="text" class="form-control" name="team_group" id="address"
                                  placeholder="Team Address" aria-label="Team Address" aria-describedby="basic-addon1"
                                  required>
-                             <label for="address">Address</label>
+                             <label for="address">Team Group</label>
                          </div>
                          <div class="form-floating mb-3">
-                             <input type="text" class="form-control" name="website" id="website" placeholder="Website"
+                             <input type="text" class="form-control" name="match_played" id="website" placeholder="Website"
                                  aria-label="Website" aria-describedby="basic-addon1" required>
-                             <label for="Website">Website</label>
+                             <label for="Website">Match Played</label>
                          </div>
                          <div class="form-floating mb-3">
-                             <input type="text" class="form-control" name="phone" id="phone" placeholder="Contact Number"
+                             <input type="text" class="form-control" name="won" id="phone" placeholder="Contact Number"
                                  aria-label="Contact Number" aria-describedby="basic-addon1" required>
-                             <label for="phone">Contact Number</label>
+                             <label for="phone">Wons</label>
                          </div>
                          <div class="form-floating mb-3">
-                             <input type="email" class="form-control" name="email" id="email" placeholder="Email"
+                             <input type="text" class="form-control" name="draw" id="email" placeholder="Email"
                                  aria-label="Email" aria-describedby="basic-addon1" required>
-                             <label for="email">Email</label>
+                             <label for="email">Draws</label>
                          </div>
                          <div class="form-floating mb-3">
-                             <input type="number" min="11" class="form-control" name="number-of-players"
+                             <input type="text" min="11" class="form-control" name="lost"
                                  placeholder="Number of Players" aria-label="Number of Players"
                                  aria-describedby="basic-addon1" required>
-                             <label for="number-of-players">Number of Players</label>
+                             <label for="number-of-players">Losts</label>
                          </div>
                          <div class="form-floating mb-3">
-                             <input type="text" class="form-control" name="coach" id="coach" placeholder="Coach Name"
+                             <input type="text" class="form-control" name="goal_for" id="coach" placeholder="Coach Name"
                                  aria-label="Coach Name" aria-describedby="basic-addon1" required>
-                             <label for="coach">Coach Name</label>
+                             <label for="coach">Goal for</label>
                          </div>
                          <div class="form-floating mb-3">
-                             <input type="text" class="form-control" name="manager" id="manager"
+                             <input type="text" class="form-control" name="goal_against" id="manager"
                                  placeholder="Manager Name" aria-label="Manager Name" aria-describedby="basic-addon1"
                                  required>
-                             <label for="manager">Manager Name</label>
+                             <label for="manager">Goal Against</label>
                          </div>
+                         <div class="form-floating mb-3">
+                            <input type="text" class="form-control" name="goal_diff" id="manager"
+                                placeholder="Manager Name" aria-label="Manager Name" aria-describedby="basic-addon1"
+                                required>
+                            <label for="manager">Goal Diffrence</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" name="group_position" id="manager"
+                                placeholder="Manager Name" aria-label="Manager Name" aria-describedby="basic-addon1"
+                                required>
+                            <label for="manager">Group Position</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" name="points" id="manager"
+                                placeholder="Manager Name" aria-label="Manager Name" aria-describedby="basic-addon1"
+                                required>
+                            <label for="manager">Points</label>
+                        </div>
 
                      </div>
                      <div class="col-12 d-flex">

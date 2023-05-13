@@ -53,35 +53,29 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th scope="col">Team A</th>
-                                <th scope="col">Team B</th>
-                                <th scope="col">Time</th>
-                                <th scope="col" class="w-250">Date</th>
-                                <th scope="col">Referee</th>
+                                <th scope="col">Match No.</th>
+                                <th scope="col">Team No.</th>
+                                <th scope="col">Play Stage</th>
+                                <th scope="col" class="w-250">Win Or Lose?</th>
+                                <th scope="col">Goals</th>
+                                <th scope="col">Penalties</th>
+                                <th scope="col">Assested Referee</th>
+                                <th scope="col">Goal Keeper</th>
                             </tr>
                         </thead>
                         <tbody>
+                            {% for match in matches %}
                             <tr>
-                                <td>Brazil</td>
-                                <td>Argentina</td>
-                                <td>6 pm</td>
-                                <td>Sat Aug 13 2022</td>
-                                <td>Dariana Goldner</td>
+                                <td>{{match.match_no}}</td>
+                                <td>{{match.team_id}}</td>
+                                <td>{{match.play_stage}}</td>
+                                <td>{{match.win_lose}}</td>
+                                <td>{{match.goal_score}}</td>
+                                <td>{{match.penalty_score}}</td>
+                                <td>{{match.asst_ref}}</td>
+                                <td>{{match.player_gk}}</td>
                             </tr>
-                            <tr>
-                                <td>Brazil</td>
-                                <td>Argentina</td>
-                                <td>6 pm</td>
-                                <td>Sat Aug 13 2022</td>
-                                <td>Dariana Goldner</td>
-                            </tr>
-                            <tr>
-                                <td>Brazil</td>
-                                <td>Argentina</td>
-                                <td>6 pm</td>
-                                <td>Sat Aug 13 2022</td>
-                                <td>Dariana Goldner</td>
-                            </tr>
+                            {% endfor %}
                         </tbody>
                     </table>
                 </div>

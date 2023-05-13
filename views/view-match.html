@@ -5,10 +5,11 @@
      <main>
          <div class="container">
              <div class="row g-3 x-panel mt-4 ">
-                 <h1>Team {{team.team_id}}</h1>
+                 <h1>Match {{match.match_no}}</h1>
                  <div class="col-md-6">
-                     <p><b>Tournament ID:</b> {{team.tr_id}}</p>
-                     <p><b>Team group:</b> {{team.team_group}}</p>
+                     <p><b>First Team:</b> {{match.team_id[0]}}</p>
+                     <p><b>Second Team:</b> {{match.team_id[1]}}</p>
+                     <p><b>Play Stage:</b> {{team.team_group}}</p>
                      <p><b>Match played:</b> {{team.match_played}}</p>
                      <p><b>Won:</b> {{team.won}}</p>
                      <p><b>Draw:</b> {{team.draw}}</p>

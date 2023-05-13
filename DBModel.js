@@ -46,7 +46,7 @@ const getPlayers = async (team_id) =>{
 
 const getCoachName = async (team_id,tr_id) =>{
   const db = await getDbConnection();
-  const coach = await db.all(`SELECT * FROM team JOIN coach join team_coaches WHERE team.team_id = '${team_id}' AND team.team_id = team_coaches.team_id AND coach.tr_id = '${tr_id}'`)
+  const coach = await db.all(`SELECT * FROM team JOIN (SELECT * FROM team_coaches JOIN coach) ON team.team_id = '${team_id}'`)
   await db.close()
   return coach
 }
@@ -73,5 +73,6 @@ module.exports = {
   getPlayers,
   getCoachName,
   getTournamentName,
+  getMatches,
 } 
 

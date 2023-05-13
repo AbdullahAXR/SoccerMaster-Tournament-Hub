@@ -7,30 +7,9 @@ var upload = multer();
 nunjucks = require('nunjucks');
 var cookieParser = require('cookie-parser');
 const { 
-  getAllTournaments,
-  getTournamentsDetails,
-  getUserDetails,
-  createUser,
-  getCoachName,
-  getAllTeams,
-  getTeam,
-  getPlayers,
-  deleteMatch,
-  deletePlayer,
-  deleteTeam,
-  deleteTournament,
-  addTournament,
-  addTeam,
-  addPlayer,
-  addMatch,
-  addRefree,
-  addTeamCoach,
-  editTournament,
-  editTeam,
-  editPlayer,
-  editMatch,
-  getTournamentName,
-  getTournamentsDetailsForDelete,
+  getAllTournaments,getUserDetails, 
+  createUser ,getTournamentsDetails,getUsers,
+  getTeam, getPlayers,getAllTeams,getCoachName,getTournamentName,getAllMatches, addTournament, addTeam,addPlayer
 } = require('./Models/DBModel')
 const port = 3000
 
@@ -46,7 +25,7 @@ app.use(session({
   saveUninitialized: false,
   cookie: { 
     secure: false, // This will only work if you have https enabled!
-    maxAge: 60000 // 1 min
+    maxAge: 600000 // 1 hour
   } 
 }));
 
@@ -146,19 +125,19 @@ app.post('/signup', async function(req, res){
 
 
 // TEAM DETAILS 
-// app.get("/view-team-details/:team_id/:tr_id", async (req, res) => {
-//   const team_id = req.params.team_id
-//   const tr_id = req.params.tr_id
-//   const team = await getTeam(team_id,tr_id)
-//   const players = await getPlayers(team_id)
-//   // res.render("view-team-details" ,{team: team[0] , players: players , isLogged: req.session.logged});
-//   const coach_name = await getCoachName(team_id,tr_id)
-//   // console.log(coach_name)
-//   res.render("view-team-details" ,{team: team[0] , players: players, coach_name: coach_name[0], isLogged: req.session.logged});
-// });
+app.get("/view-team-details/:team_id/:tr_id", async (req, res) => {
+  const team_id = req.params.team_id
+  const tr_id = req.params.tr_id
+  const team = await getTeam(team_id,tr_id)
+  const players = await getPlayers(team_id)
+  // res.render("view-team-details" ,{team: team[0] , players: players , isLogged: req.session.logged});
+  const coach_name = await getCoachName(team_id,tr_id)
+  // console.log(coach_name)
+  res.render("view-team-details" ,{team: team[0] , players: players, coach_name: coach_name[0], isLogged: req.session.logged});
+});
 
 // MANAGE TEAMS
-app.get('/manage-teams', async function(req, res, next) { 
+app.get('/manage-teams', async function(req, res) { 
   const teams = await getAllTeams()
   res.render('manage-teams.html', { teams : teams, isLogged: req.session.logged});
 });
@@ -182,9 +161,17 @@ app.get('/manage-tournaments', async (req, res) => {
 // TOURNAMENTS DETAILS
 app.get('/u-tournament-details/:tr_id', async (req, res) => {
   const tr_id = req.params.tr_id
+  const matches = await getAllMatches(tr_id)
   const teams = await getTournamentsDetails(tr_id)
-  res.render('u-tournament-details', { teams : teams,  isLogged: req.session.logged});
+  res.render('u-tournament-details', { teams : teams,  isLogged: req.session.logged, matches: matches});
 })
+
+
+// CREATE TOURNAMENTS
+app.post('/addTour', async (req, res) => {
+  const body = req.body;
+  const createTour = await addTournament(body);
+  res.redirect('/');
 
 //  Delete TOURNAMENT
 app.get('/delete-tournament-details/:tr_id', async (req, res) => {
@@ -192,15 +179,22 @@ app.get('/delete-tournament-details/:tr_id', async (req, res) => {
   const tournament = await getTournamentsDetailsForDelete(tr_id)
   console.log(tournament)
   res.render('delete-tournament-details', { tournament : tournament[0],  isLogged: req.session.logged});
+
 })
 
-app.get('/delete-tournament-details/:tr_id/:Confirm', async function(req, res){
-  if(req.params.Confirm == "true"){
-  const tournament = await deleteTournament(req.params.tr_id)
-  }
-  res.redirect("/manage-tournaments");
-  
-});
+// CREATE TEAM
+app.post('/addTeam', async (req, res) => {
+  const body = req.body;
+  const createTeam = await addTeam(body);
+  res.redirect('/');
+})
+
+// CREATE PLAYER
+app.post('/addPlayer', async (req, res) => {
+  const body = req.body;
+  const createPlayer = await addPlayer(body);
+  res.redirect('/');
+})
 
 //  Delete Team
 app.get('/delete-team-details/:team_id/:tr_id/', async (req, res) => {
@@ -222,10 +216,18 @@ app.get('/delete-team-details/:team_id/:tr_id/:Confirm', async function(req, res
 
 // DASHBOARD
 app.get('/dashboard', async (req, res) => {
+  if (req.session.admin == 0){
+    res.render('dashboard', { user: {
+      name: req.session.name, admin: req.session.admin,
+      email: req.session.email
+    },isLogged: req.session.logged});
+  } else {
+  const users = await getUsers(req.session.email);
+  console.log(users)
   res.render('dashboard', { user: {
     name: req.session.name, admin: req.session.admin,
     email: req.session.email
-  }, isLogged: req.session.logged});
+  },users: users ,isLogged: req.session.logged});}
 })
 
 app.listen(port, () => {
