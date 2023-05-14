@@ -258,6 +258,24 @@ const getMatch = async (match_no,team_id) => {
   await db.close();
   return users;
 }
+
+const deleteAccount = async (email) => {
+  const db = await getDbConnection();
+  const meta = await db.run(`DELETE FROM AUTH WHERE email = '${email}'`)
+  await db.close();
+  return meta;
+}
+
+const editAccount = async (body) => {
+  const db = await getDbConnection();
+  //const password = await db.all(`SELECT password FROM Auth WHERE name = '${body.name}'`);
+  const meta = await db.run(`UPDATE Auth 
+  SET 'name' = '${body.name}' , 'email' = '${body.email}' , 'admin' = '${body.admin}'
+  WHERE email = '${body.email}'`)
+  await db.close();
+  return meta;
+}
+
 module.exports = {
   getAllTournaments,
   getTournamentsDetails,
@@ -287,5 +305,7 @@ module.exports = {
   getTournamentsDetailsForDelete,
   getAllMatches,
   getUsers,
-  getMatch
+  getMatch,
+  deleteAccount,
+  editAccount
 };

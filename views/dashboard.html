@@ -42,12 +42,12 @@
                                     {% else %}
                                     <td>Yes</td>
                                     {% endif %}
-                                    <!-- <td>
-                                        <a href="TODO/EDITPROFILE"><button
-                                                class="btn btn-primary mb-1">Edit</button></a>
-                                        <a href="TODO/DELETEPROFILE"><button
-                                                class="btn btn-danger mb-1">Delete</button></a>
-                                    </td> -->
+                                    <td>
+                                        <a href="/editAccount/{{user.name}}/{{user.email}}/{{user.admin}}"><button
+                                            class="btn btn-primary mb-1">Edit</button></a>
+                                    <a href="/deleteAccount/{{user.name}}/{{user.email}}/{{user.admin}}"><button
+                                            class="btn btn-danger mb-1">Delete</button></a>
+                                    </td>
                                 </tr>
                         </tbody>
                     </table>
@@ -67,17 +67,17 @@
                                     <td>{{user.name}}</td>
                                     <td>{{user.email}}</td>
                                     <td>**************</td>
-                                    {% if admin == 0 %}
+                                    {% if user.admin == 0 %}
                                     <td>No</td>
                                     {% else %}
                                     <td>Yes</td>
                                     {% endif %}
-                                    <!-- <td>
-                                        <a href="TODO/EDITPROFILE"><button
-                                                class="btn btn-primary mb-1">Edit</button></a>
-                                        <a href="TODO/DELETEPROFILE"><button
-                                                class="btn btn-danger mb-1">Delete</button></a>
-                                    </td> -->
+                                    <td>
+                                        <a href="/editAccount/{{user.name}}/{{user.email}}/{{user.admin}}"><button
+                                            class="btn btn-primary mb-1">Edit</button></a>
+                                    <a href="/deleteAccount/{{user.name}}/{{user.email}}/{{user.admin}}"><button
+                                            class="btn btn-danger mb-1">Delete</button></a>
+                                    </td>
                                 </tr>
                                 {% endfor %} 
                             </tbody>
