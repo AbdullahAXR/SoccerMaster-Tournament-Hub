@@ -25,10 +25,10 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Email</th>
-                                    <th scope="col">Password</th>
-                                    <th scope="col">Is Admin ?</th>
+                                    <th scope="col">Your Name</th>
+                                    <th scope="col">Your Email</th>
+                                    <th scope="col">Your Password</th>
+                                    <th scope="col">Are You Admin ?</th>
                                     <th scope="col" class="w-250">Actions</th>
                                 </tr>
                             </thead>
@@ -37,18 +37,49 @@
                                     <td>{{user.name}}</td>
                                     <td>{{user.email}}</td>
                                     <td>**************</td>
-                                    {% if admin == 0 %}
+                                    {% if user.admin == 0 %}
                                     <td>No</td>
                                     {% else %}
                                     <td>Yes</td>
                                     {% endif %}
                                     <td>
-                                        <a href="TODO/EDITPROFILE"><button
-                                                class="btn btn-primary mb-1">Edit</button></a>
-                                        <a href="TODO/DELETEPROFILE"><button
-                                                class="btn btn-danger mb-1">Delete</button></a>
+                                        <a href="/editAccount/{{user.name}}/{{user.email}}/{{user.admin}}"><button
+                                            class="btn btn-primary mb-1">Edit</button></a>
+                                    <a href="/deleteAccount/{{user.name}}/{{user.email}}/{{user.admin}}"><button
+                                            class="btn btn-danger mb-1">Delete</button></a>
                                     </td>
-                                </tr> 
+                                </tr>
+                        </tbody>
+                    </table>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">User Name</th>
+                                <th scope="col">User Email</th>
+                                <th scope="col">User Password</th>
+                                <th scope="col">Is Admin ?</th>
+                                <th scope="col" class="w-250">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                                {% for user in users %}
+                                <tr> 
+                                    <td>{{user.name}}</td>
+                                    <td>{{user.email}}</td>
+                                    <td>**************</td>
+                                    {% if user.admin == 0 %}
+                                    <td>No</td>
+                                    {% else %}
+                                    <td>Yes</td>
+                                    {% endif %}
+                                    <td>
+                                        <a href="/editAccount/{{user.name}}/{{user.email}}/{{user.admin}}"><button
+                                            class="btn btn-primary mb-1">Edit</button></a>
+                                    <a href="/deleteAccount/{{user.name}}/{{user.email}}/{{user.admin}}"><button
+                                            class="btn btn-danger mb-1">Delete</button></a>
+                                    </td>
+                                </tr>
+                                {% endfor %} 
                             </tbody>
                         </table>
                     </div>

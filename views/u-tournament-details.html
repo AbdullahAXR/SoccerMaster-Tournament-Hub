@@ -53,35 +53,29 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th scope="col">Team A</th>
-                                <th scope="col">Team B</th>
-                                <th scope="col">Time</th>
-                                <th scope="col" class="w-250">Date</th>
-                                <th scope="col">Referee</th>
+                                <th scope="col">Match No.</th>
+                                <th scope="col">Team No.</th>
+                                <th scope="col">Play Stage</th>
+                                <th scope="col" class="w-250">Win Or Lose?</th>
+                                <th scope="col">Goals</th>
+                                <th scope="col">Penalties</th>
+                                <th scope="col">Assested Referee</th>
+                                <th scope="col">Goal Keeper</th>
                             </tr>
                         </thead>
                         <tbody>
+                            {% for match in matches %}
                             <tr>
-                                <td>Brazil</td>
-                                <td>Argentina</td>
-                                <td>6 pm</td>
-                                <td>Sat Aug 13 2022</td>
-                                <td>Dariana Goldner</td>
+                                <td>{{match.match_no}}</td>
+                                <td>{{match.team_id}}</td>
+                                <td>{{match.play_stage}}</td>
+                                <td>{{match.win_lose}}</td>
+                                <td>{{match.goal_score}}</td>
+                                <td>{{match.penalty_score}}</td>
+                                <td>{{match.asst_ref}}</td>
+                                <td>{{match.player_gk}}</td>
                             </tr>
-                            <tr>
-                                <td>Brazil</td>
-                                <td>Argentina</td>
-                                <td>6 pm</td>
-                                <td>Sat Aug 13 2022</td>
-                                <td>Dariana Goldner</td>
-                            </tr>
-                            <tr>
-                                <td>Brazil</td>
-                                <td>Argentina</td>
-                                <td>6 pm</td>
-                                <td>Sat Aug 13 2022</td>
-                                <td>Dariana Goldner</td>
-                            </tr>
+                            {% endfor %}
                         </tbody>
                     </table>
                 </div>
@@ -89,7 +83,64 @@
                     <a class="ml-auto" href="/"><button class="btn btn-primary mb-1">Back To Home</button></a>
                 </div>
             </div>
-
+            {% if isLogged %}
+            <div class="row g-3 x-panel mt-4">
+                <h2>Add New Match</h2>
+                <form action="/addMatch" method="post">
+                   <input type="text" name="tr_id" value="{{tournament_name}}" style="display:none">
+                    <div class="col">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" name="match_no" id="name" placeholder="Match No"
+                                aria-label="Player Name" aria-describedby="basic-addon1" required>
+                            <label for="name">Match No</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" name="team_id" id="ID" placeholder="Team ID"
+                                aria-label="Player ID" aria-describedby="basic-addon1" required>
+                            <label for="ID">Team ID</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="date" class="form-control" name="play_stage" placeholder="date" aria-label="date"
+                                aria-describedby="basic-addon1" required>
+                            <label for="date">Play Stage</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" name="win_lose" id="department"
+                                placeholder="department" aria-label="department" aria-describedby="basic-addon1"
+                                required>
+                            <label for="department">win_lose</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" name="goal_score" id="department"
+                                placeholder="department" aria-label="department" aria-describedby="basic-addon1"
+                                required>
+                            <label for="department">Goal Score</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" name="penalty_score" id="department"
+                                placeholder="department" aria-label="department" aria-describedby="basic-addon1"
+                                required>
+                            <label for="department">Penalty Score</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" name="asst_ref" id="department"
+                                placeholder="department" aria-label="department" aria-describedby="basic-addon1"
+                                required>
+                            <label for="department">Assested referee</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" name="player_gk" id="department"
+                                placeholder="department" aria-label="department" aria-describedby="basic-addon1"
+                                required>
+                            <label for="department">GK of the Game</label>
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex">
+                        <button class="btn btn-primary mb-1 ml-auto" type="submit">Create Match</button>
+                    </div>
+                </form>
+            </div>
+            {% endif %}
         </div>
     </main>
 

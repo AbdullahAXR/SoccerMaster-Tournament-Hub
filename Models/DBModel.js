@@ -63,6 +63,13 @@ const getAllTeams = async () => {
   return teams;
 };
 
+const getAllMatches = async (tr_id) => {
+const db = await getDbConnection();
+const matches = await db.all(`SELECT * FROM match_details WHERE tr_id = '${tr_id}'`);
+await db.close();
+return matches;
+};
+
 const getTeam = async (team_id, tr_id) => {
   const db = await getDbConnection();
   const team = await db.all(`SELECT * FROM team WHERE team_id = '${team_id}' AND tr_id = '${tr_id}'`);
@@ -133,21 +140,20 @@ const deleteMatch = async (match_no) => {
 
 const addTournament = async (tournamentData) => {
   const db = await getDbConnection();
-  const tournament = await db.all(`INSERT INTO tournament 
-  (tr_id,tr_name,start_date,end_date)
-  VALUES ('${tournamentData.tr_id}','${tournamentData.tr_name}','
-  ${tournamentData.start_date}','${tournamentData.end_date}  `);
+
+  const tournament = await db.run(`INSERT INTO tournament ('tr_id','tr_name','start_date','end_date')
+  VALUES ('${tournamentData.tr_id}','${tournamentData.tr_name}',' ${tournamentData.start_date}','${tournamentData.end_date}')`);
   await db.close();
   return tournament;
 };
 
 const addTeam = async (teamData) => {
   const db = await getDbConnection();
-  const team = await db.all(`INSERT INTO team 
-  (team_id,tr_id,team_group,match_played,won,draw,lost,goal_for,goal_against)
+  const team = await db.run(`INSERT INTO team 
+  (team_id,tr_id,team_group,match_played,won,draw,lost,goal_for,goal_against,goal_diff,points,group_position)
   VALUES ('${teamData.team_id}','${teamData.tr_id}','${teamData.team_group}','
-  ${teamData.match_played},${teamData.won},${teamData.draw},${teamData.lost},
-  ${teamData.goal_for},${teamData.goal_against}  `);
+  ${teamData.match_played}','${teamData.won}','${teamData.draw}','${teamData.lost}',
+  '${teamData.goal_for}','${teamData.goal_against}','${teamData.goal_diff}','${teamData.points}','${teamData.group_position}') `);
   await db.close();
   return team;
 };
@@ -157,8 +163,8 @@ const addPlayer = async (playerData) => {
   const player = await db.all(`INSERT INTO player 
   (player_id,team_id,jersey_no,player_name,position_to_play,dt_of_bir)
   VALUES ('${playerData.player_id}','${playerData.team_id}','
-  ${playerData.jersey_no}','${playerData.player_name},
-  ${playerData.position_to_play},${playerData.dt_of_bir} `);
+  ${playerData.jersey_no}','${playerData.player_name}',
+  '${playerData.position_to_play}','${playerData.dt_of_bir}') `);
   await db.close();
   return player;
 };
@@ -166,11 +172,11 @@ const addPlayer = async (playerData) => {
 const addMatch = async (matchData) => {
   const db = await getDbConnection();
   const match =
-    await db.all(`INSERT INTO match_played (match_no,play_stage,play_date,results,decided_by,goal_score,venue_id,referee_id,audience,player_of_match,stop1_sec,stop2_sec)
-  VALUES ('${matchData.match_no}','${matchData.play_stage}','${matchData.play_date}','
-  ${matchData.results},${matchData.decided_by},${matchData.goal_score},
-  ${matchData.venue_id},${matchData.referee_id},${matchData.audience},
-  ${matchData.player_of_match},${matchData.stop1_sec},${matchData.stop2_sec} `);
+    await db.all(`INSERT INTO match_details (match_no,play_stage,tr_id,decided_by,team_id,win_lose,goal_score,penalty_score,asst_ref,player_gk)
+  VALUES ('${matchData.match_no}','${matchData.play_stage}','${matchData.tr_id}','0','
+  ${matchData.team_id}','${matchData.win_lose}',
+  '${matchData.goal_score}','${matchData.penalty_score}','${matchData.asst_ref}',
+  '${matchData.player_gk}') `);
   await db.close();
   return match;
 };
@@ -205,9 +211,9 @@ const editTeam = async (team_id,tr_id, teamData) => {
   const db = await getDbConnection();
   const team = await db.run(`UPDATE team
   SET team_id = '${team_id}' ,tr_id = '${tr_id}' ,
-  team_group = '${teamData.team_group}' ,match_played = '${teamData.match_played},
+  team_group = '${teamData.team_group}' ,match_played = '${teamData.match_played}',
   won = '${teamData.won}',draw = '${teamData.draw}',lost = '${teamData.lost}',
-  goal_for = '${teamData.goal_for}',goal_against = '${teamData.goal_against}',team_diff = '${teamData.team_diff}'
+  goal_for = '${teamData.goal_for}',goal_against = '${teamData.goal_against}',goal_diff = '${teamData.goal_diff}'
   ,points = '${teamData.points}',group_position = '${teamData.group_position}'
   WHERE team_id = '${team_id}'`);
   await db.close();
@@ -239,6 +245,37 @@ const editMatch = async (match_no, matchData) => {
   return match;
 };
 
+const getUsers = async (email) => {
+  const db = await getDbConnection();
+  const users = await db.all(`SELECT * FROM Auth WHERE email != '${email}'`)
+  await db.close();
+  return users;
+}
+
+const getMatch = async (match_no,team_id) => {
+  const db = await getDbConnection();
+  const users = await db.all(`SELECT * FROM match_details WHERE match_no == '${match_no} ' AND team_id = '${team_id}'`)
+  await db.close();
+  return users;
+}
+
+const deleteAccount = async (email) => {
+  const db = await getDbConnection();
+  const meta = await db.run(`DELETE FROM AUTH WHERE email = '${email}'`)
+  await db.close();
+  return meta;
+}
+
+const editAccount = async (body) => {
+  const db = await getDbConnection();
+  //const password = await db.all(`SELECT password FROM Auth WHERE name = '${body.name}'`);
+  const meta = await db.run(`UPDATE Auth 
+  SET 'name' = '${body.name}' , 'email' = '${body.email}' , 'admin' = '${body.admin}'
+  WHERE email = '${body.email}'`)
+  await db.close();
+  return meta;
+}
+
 module.exports = {
   getAllTournaments,
   getTournamentsDetails,
@@ -266,5 +303,9 @@ module.exports = {
   getCoachName,
   getTournamentName,
   getTournamentsDetailsForDelete,
-
+  getAllMatches,
+  getUsers,
+  getMatch,
+  deleteAccount,
+  editAccount
 };
