@@ -288,6 +288,27 @@ app.get('/delete-player-details/:team_id/:player_id/:tr_id/:Confirm', async func
   
 });
 
+//  Delete match
+app.get('/delete-match-details/:match_no/:team_no', async (req, res) => {
+  const match_no = req.params.match_no
+  const team_no = req.params.team_no
+
+  const match = await getMatch(match_no,team_no)
+  res.render('delete-match-details', { match: match[0],  isLogged: req.session.logged});
+})
+
+app.get('/delete-match-details/:match_no/:team_no/:Confirm', async function(req, res){
+
+  const match_no = req.params.match_no
+  const team_no = req.params.team_no
+  const Confirm = req.params.Confirm
+  if(Confirm == "true"){
+    const player = await deleteMatch(match_no,team_no)
+  }
+  res.redirect("/");
+  
+});
+
 //  Edit Tournament
 app.get('/edit-tournament-details/:tr_id', async (req, res) => {
   const tr_id = req.params.tr_id
@@ -364,7 +385,7 @@ app.post('/edit-match-details/:match_no/:team_no/', async function(req, res){
   const team_no = req.params.team_no
   console.log(req.body)
   const player = await editMatchDetails(match_no,team_no,req.body)
-  res.redirect("/team-details/"+team_id+"/"+tr_id);
+  res.redirect("/");
 
 });
 
