@@ -61,6 +61,7 @@
                                 <th scope="col">Penalties</th>
                                 <th scope="col">Assested Referee</th>
                                 <th scope="col">Goal Keeper</th>
+                                <th scope="col">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -74,7 +75,16 @@
                                 <td>{{match.penalty_score}}</td>
                                 <td>{{match.asst_ref}}</td>
                                 <td>{{match.player_gk}}</td>
+                                {% if isLogged %}
+                                <td>
+                                <a href="/edit-match-details/{{match.match_no}}/{{match.team_id}}"><button
+                                    class="btn btn-primary mb-1">Edit</button></a>
+                                <a href="/delete-match-details/{{match.match_no}}/{{match.team_id}}"><button
+                                    class="btn btn-danger mb-1">Delete</button></a>
+                                </td>
+                            {% endif %}
                             </tr>
+                            
                             {% endfor %}
                         </tbody>
                     </table>

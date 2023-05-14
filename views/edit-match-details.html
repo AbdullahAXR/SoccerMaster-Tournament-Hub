@@ -7,44 +7,44 @@
 
             <div class="row g-3 x-panel mt-4">
                 <h2>Edit Match</h2>
-                <form action="#" method="post">
+                <form action="/edit-match-details/{{match.match_no}}/{{match.team_id}}/" method="post">
                     <div class="col">
-                        <div class="form-floating mb-3">
+                        <!-- <div class="form-floating mb-3">
                             <input type="text" class="form-control" name="match_no" id="team-a" placeholder="Team A"
-                                aria-label="Team A" aria-describedby="basic-addon1" value="Brazil" required>
-                            <label for="team-a">{{match.match_no}}</label>
-                        </div>
+                                aria-label="Team A" aria-describedby="basic-addon1" value="{{match.match_no}}" required>
+                            <label for="team-a">Matc</label>
+                        </div> -->
                         <div class="form-floating mb-3">
                             <input type="text" class="form-control" name="team_id" id="team-b" placeholder="Team B"
-                                aria-label="Team B" aria-describedby="basic-addon1" value="Argentina" required>
-                            <label for="team-b">{{match.team_id}}</label>
+                                aria-label="Team B" aria-describedby="basic-addon1" value="{{match.team_id}}" required>
+                            <label for="team-b">Team ID</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="time" class="form-control" name="play_stage" id="time" placeholder="Time"
-                                aria-label="time" aria-describedby="basic-addon1" value="20:00" required>
-                            <label for="time">{{match.play_stage}}</label>
+                            <input type="text" class="form-control" name="play_stage" id="time" placeholder="Time"
+                                aria-label="time" aria-describedby="basic-addon1" value="{{match.play_stage}}" required>
+                            <label for="time">Play Stage</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="date" class="form-control" name="win_lose" id="start-date"
-                                aria-label="Start Date" aria-describedby="basic-addon1" value="2023-03-30" required>
-                            <label for="start-date">{{match.win_lose}}</label>
+                            <input type="text" class="form-control" name="win_lose" id="start-date"
+                                aria-label="Start Date" aria-describedby="basic-addon1" value="{{match.win_lose}}" required>
+                            <label for="start-date">Win or Lose</label>
                         </div>
                     </div>
                     <div class="form-floating mb-3">
                         <input type="text" class="form-control" name="goal_score" id="referee" placeholder="Referee"
-                            aria-label="referee" aria-describedby="basic-addon1" value="Dariana Goldner" required>
-                        <label for="referee">{{match.goal_score}}</label>
+                            aria-label="referee" aria-describedby="basic-addon1" value="{{match.goal_score}}" required>
+                        <label for="referee">Goal Score</label>
                     </div>
                     <div class="row g-3">
                         <div class="col-6 form-floating mb-3">
-                            <input type="number" min="0" class="form-control" name="penalty_score" id="team-a-score"
-                                placeholder="team-a-score" aria-label="team-a-score" aria-describedby="basic-addon1" value="2" required>
-                            <label for="team-a-score">{{match.match_no}}</label>
+                            <input type="text" min="0" class="form-control" name="penalty_score" id="team-a-score"
+                                placeholder="team-a-score" aria-label="team-a-score" aria-describedby="basic-addon1" value="{{match.match_no}}" required>
+                            <label for="team-a-score">{{match.penalty_score}}</label>
                         </div>
                         <div class="col-6 form-floating mb-3">
                             <input type="number" min="0" class="form-control" name="asst_ref" id="team-b-score"
-                                placeholder="team-b-score" aria-label="team-b-score" aria-describedby="basic-addon1" value="3" required>
-                            <label for="team-b-score">{{match.asst_ref}}</label>
+                                placeholder="team-b-score" aria-label="team-b-score" aria-describedby="basic-addon1" value="{{match.asst_ref}}" required>
+                            <label for="team-b-score">Assistance Referee</label>
                         </div>
                         <div class="col-6 form-floating mb-3">
                             <input type="number" min="0" class="form-control" name="player_gk" id="team-b-score"
@@ -75,5 +75,5 @@
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
 </body>
-
+</html>
 {% endblock %}

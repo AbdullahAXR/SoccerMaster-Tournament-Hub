@@ -34,7 +34,9 @@ const {
   getTournamentsDetailsForDelete,
   getPlayer, 
   getUsers,
-  getAllMatches
+  getAllMatches,
+  editMatchDetails,
+  getReffs
 } = require('./Models/DBModel');
 const { render } = require('nunjucks');
 const port = 5050
@@ -192,13 +194,7 @@ app.get('/u-tournament-details/:tr_id', async (req, res) => {
   res.render('u-tournament-details', { teams : teams,  isLogged: req.session.logged, matches: matches, tournament_name:tr_id});
 })
 
-// EDIT MATCH 
-app.get('/edit-match-details/:match_no/:team_no', async (req, res) => {
-  const match_no = req.params.match_no
-  const team_no = req.params.team_no
-  const match = await getMatch(match_no,team_no)
-  render('edit-match-details', { match : match , isLogged : req.session.logged})
-});
+
 
 // CREATE TOURNAMENTS
 app.post('/addTour', async (req, res) => {
@@ -207,33 +203,48 @@ app.post('/addTour', async (req, res) => {
   res.redirect('/');
 });
 
-//  Delete TOURNAMENT
+// //  Delete TOURNAMENT
+// app.get('/delete-tournament-details/:tr_id', async (req, res) => {
+//   const tr_id = req.params.tr_id
+//   const deleteTour = await deleteTournament(tr_id);
+//   res.redirect('/', { isLogged: req.session.logged});
+
+// })
+// TOURNAMENTS Delete
 app.get('/delete-tournament-details/:tr_id', async (req, res) => {
   const tr_id = req.params.tr_id
-  const deleteTour = await deleteTournament(tr_id);
-  res.redirect('/', { isLogged: req.session.logged});
-
+  const tournament = await getTournamentsDetailsForDelete(tr_id)
+  console.log(tournament)
+  res.render('delete-tournament-details', { tournament : tournament[0],  isLogged: req.session.logged});
 })
+
+app.get('/delete-tournament-details/:tr_id/:Confirm', async function(req, res){
+  if(req.params.Confirm == "true"){
+  const tournament = await deleteTournament(req.params.tr_id)
+  }
+  res.redirect("/manage-tournaments");
+  
+});
 
 // CREATE TEAM
 app.post('/addTeam', async (req, res) => {
   const body = req.body;
   const createTeam = await addTeam(body);
-  res.redirect('/');
+  res.redirect('back');
 })
 
 // CREATE PLAYER
 app.post('/addPlayer', async (req, res) => {
   const body = req.body;
   const createPlayer = await addPlayer(body);
-  res.redirect('/');
+  res.redirect('back');
 })
 
 // CREATE MATCH
 app.post('/addMatch', async (req, res) => {
   const body = req.body;
   const createPlayer = await addMatch(body);
-  res.redirect('/');
+  res.redirect('back');
 })
 
 //  Delete Team
@@ -322,14 +333,37 @@ app.get('/edit-player-details/:team_id/:player_id/:tr_id', async (req, res) => {
   const player_id = req.params.player_id
   const player = await getPlayer(team_id,player_id)
   console.log(player)
-  res.render('edit-player-details', { player : player[0],  isLogged: req.session.logged});
+  res.render('edit-player-details', { player : player[0],tr_id,  isLogged: req.session.logged});
 })
 
 app.post('/edit-player-details/:team_id/:player_id/:tr_id', async function(req, res){
   const team_id = req.params.team_id
   const tr_id = req.params.tr_id
   const player_id = req.params.player_id
-  const player = await editPlayer(player_id,req.body)
+  const player = await editPlayer(player_id,team_id,req.body)
+  res.redirect("/team-details/"+team_id+"/"+tr_id);
+
+});
+
+// EDIT MATCH 
+app.get('/edit-match-details/:match_no/:team_no', async (req, res) => {
+  const match_no = req.params.match_no
+  const team_no = req.params.team_no
+  console.log(match_no,team_no)
+  const match = await getMatch(match_no,team_no)
+  const reffs = await getReffs()
+  const players = await getPlayers(team_no)
+  console.log(match[0])
+  console.log(reffs)
+  console.log(players)
+  res.render('edit-match-details', { match : match[0],players:players,reffs:reffs, isLogged : req.session.logged})
+});
+
+app.post('/edit-match-details/:match_no/:team_no/', async function(req, res){
+  const match_no = req.params.match_no
+  const team_no = req.params.team_no
+  console.log(req.body)
+  const player = await editMatchDetails(match_no,team_no,req.body)
   res.redirect("/team-details/"+team_id+"/"+tr_id);
 
 });
