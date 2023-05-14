@@ -75,13 +75,17 @@
                                 <td>{{match.penalty_score}}</td>
                                 <td>{{match.asst_ref}}</td>
                                 <td>{{match.player_gk}}</td>
-                                {% if isLogged %}
+                                {% if isLogged and admin == 1 %}
                                 <td>
                                 <a href="/edit-match-details/{{match.match_no}}/{{match.team_id}}"><button
                                     class="btn btn-primary mb-1">Edit</button></a>
                                 <a href="/delete-match-details/{{match.match_no}}/{{match.team_id}}"><button
                                     class="btn btn-danger mb-1">Delete</button></a>
                                 </td>
+                            {% else %}
+                        <td>
+                            <p>You Are Not Authrize</p>
+                        </td>
                             {% endif %}
                             </tr>
                             
@@ -93,7 +97,7 @@
                     <a class="ml-auto" href="/"><button class="btn btn-primary mb-1">Back To Home</button></a>
                 </div>
             </div>
-            {% if isLogged %}
+            {% if isLogged and admin == 1 %}
             <div class="row g-3 x-panel mt-4">
                 <h2>Add New Match</h2>
                 <form action="/addMatch" method="post">

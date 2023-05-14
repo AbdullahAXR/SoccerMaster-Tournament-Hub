@@ -25,6 +25,8 @@ const {
   addMatch,
   addRefree,
   addTeamCoach,
+  deleteAccount,
+  editAccount,
   editTournament,
   editTeam,
   editPlayer,
@@ -68,7 +70,7 @@ nunjucks.configure('views/', {
 //Index
 app.get('/', async (req, res) => {
   const tournaments = await getAllTournaments()
-  res.render('index', { tournaments : tournaments,  isLogged: req.session.logged});
+  res.render('index', { tournaments : tournaments, admin:req.session.admin , isLogged: req.session.logged});
 })
 
 
@@ -120,7 +122,7 @@ app.get('/logout', function(req, res) {
 
 // ABOUT
 app.get('/about', function(req, res) { 
-  res.render('about',{isLogged: req.session.logged});
+  res.render('about',{admin:req.session.admin ,isLogged: req.session.logged});
 });
 
 // SIGN UP
@@ -158,16 +160,14 @@ app.get("/view-team-details/:team_id/:tr_id", async (req, res) => {
   const tr_id = req.params.tr_id
   const team = await getTeam(team_id,tr_id)
   const players = await getPlayers(team_id)
-  // res.render("view-team-details" ,{team: team[0] , players: players , isLogged: req.session.logged});
   const coach_name = await getCoachName(team_id,tr_id)
-  // console.log(coach_name)
-  res.render("view-team-details" ,{team: team[0] , players: players, coach_name: coach_name[0], isLogged: req.session.logged});
+  res.render("view-team-details" ,{team: team[0] , players: players, coach_name: coach_name[0], admin:req.session.admin , isLogged: req.session.logged});
 });
 
 // MANAGE TEAMS
 app.get('/manage-teams', async function(req, res) { 
   const teams = await getAllTeams()
-  res.render('manage-teams.html', { teams : teams, isLogged: req.session.logged});
+  res.render('manage-teams.html', { teams : teams, admin:req.session.admin ,isLogged: req.session.logged});
 });
 
 // TEAM DETAILS
@@ -177,13 +177,13 @@ app.get("/u-team-details/:team_id/:tr_id", async (req, res) => {
   const team = await getTeam(team_id,tr_id)
   const players = await getPlayers(team_id)
   const coach_name = await getCoachName(team_id,tr_id)
-  res.render("u-team-details" ,{team: team[0] , players: players, coach_name: coach_name[0], isLogged: req.session.logged});
+  res.render("u-team-details" ,{team: team[0] , players: players, coach_name: coach_name[0],admin:req.session.admin , isLogged: req.session.logged});
 });
 
 // MANAGE TOURNAMENTS
 app.get('/manage-tournaments', async (req, res) => {
   const tournaments = await getAllTournaments()
-  res.render('manage-tournaments', { tournaments : tournaments,  isLogged: req.session.logged});
+  res.render('manage-tournaments', { tournaments : tournaments, admin: req.session.admin , isLogged: req.session.logged});
 })
 
 // TOURNAMENTS DETAILS
@@ -191,7 +191,7 @@ app.get('/u-tournament-details/:tr_id', async (req, res) => {
   const tr_id = req.params.tr_id
   const matches = await getAllMatches(tr_id)
   const teams = await getTournamentsDetails(tr_id)
-  res.render('u-tournament-details', { teams : teams,  isLogged: req.session.logged, matches: matches, tournament_name:tr_id});
+  res.render('u-tournament-details', { teams : teams, admin: req.session.admin, isLogged: req.session.logged, matches: matches, tournament_name:tr_id});
 })
 
 
@@ -214,8 +214,7 @@ app.post('/addTour', async (req, res) => {
 app.get('/delete-tournament-details/:tr_id', async (req, res) => {
   const tr_id = req.params.tr_id
   const tournament = await getTournamentsDetailsForDelete(tr_id)
-  console.log(tournament)
-  res.render('delete-tournament-details', { tournament : tournament[0],  isLogged: req.session.logged});
+  res.render('delete-tournament-details', { tournament : tournament[0],  admin:req.session.admin , isLogged: req.session.logged});
 })
 
 app.get('/delete-tournament-details/:tr_id/:Confirm', async function(req, res){
@@ -253,7 +252,7 @@ app.get('/delete-team-details/:team_id/:tr_id/', async (req, res) => {
   const team_id = req.params.team_id
 
   const team = await getTeam(team_id,tr_id)
-  res.render('delete-team-details', { team : team[0],  isLogged: req.session.logged});
+  res.render('delete-team-details', { team : team[0],admin:req.session.admin ,  isLogged: req.session.logged});
 })
 
 app.get('/delete-team-details/:team_id/:tr_id/:Confirm', async function(req, res){
@@ -282,7 +281,6 @@ app.get('/delete-player-details/:team_id/:player_id/:tr_id/:Confirm', async func
   const Confirm = req.params.Confirm
   if(Confirm == "true"){
     const player = await deletePlayer(team_id,player_id)
-    console.log(player)
   }
   res.redirect("/team-details/"+team_id+"/"+tr_id);
   
@@ -309,11 +307,38 @@ app.get('/delete-match-details/:match_no/:team_no/:Confirm', async function(req,
   
 });
 
+//DELETE ACCOUNT 
+app.post('/deleteAccount', async function(req, res){
+  const account = await deleteAccount(req.body.email)
+  res.redirect("/dashboard");
+
+});
+
+app.get('/deleteAccount/:name/:email/:admin', async function(req, res){
+  res.render("deleteAccount", {user:req.params, isLogged: req.session.logged});
+});
+
+// EDIT ACCOUNT 
+app.post('/editAccount', async function(req, res){
+  const account = await editAccount(req.body)
+  if (req.body.email == req.session.email){
+    req.session.email = req.body.email
+    req.session.admin = req.body.admin
+    req.session.name = req.body.name
+  }
+  res.redirect("/dashboard");
+});
+
+app.get('/editAccount/:name/:email/:admin', async function(req, res){
+  res.render("editAccount", {owner:req.session, user:req.params, isLogged: req.session.logged});
+});
+
+
 //  Edit Tournament
 app.get('/edit-tournament-details/:tr_id', async (req, res) => {
   const tr_id = req.params.tr_id
   const tournament = await getTournamentsDetailsForDelete(tr_id)
-  res.render('edit-tournament-details', { tournament : tournament[0],  isLogged: req.session.logged});
+  res.render('edit-tournament-details', { tournament : tournament[0], admin:req.session.admin , isLogged: req.session.logged});
 })
 
 app.post('/edit-tournament-details/:tr_id', async function(req, res){
@@ -333,16 +358,12 @@ app.get('/edit-team-details/:team_id/:tr_id', async (req, res) => {
   const tr_id = req.params.tr_id
   const team_id = req.params.team_id
   const team = await getTeam(team_id,tr_id)
-  console.log(team)
-  res.render('edit-team-details', { team : team[0],  isLogged: req.session.logged});
+  res.render('edit-team-details', { team : team[0], admin:req.session.admin , isLogged: req.session.logged});
 })
 
 app.post('/edit-team-details/:team_id/:tr_id', async function(req, res){
   const team_id = req.params.team_id
   const tr_id = req.params.tr_id
-  console.log(req.body.team_group)
-  console.log(req.body.match_played)
-  console.log(req.body.won)
   const tournament = await editTeam(team_id,tr_id,req.body)
   res.redirect("/manage-teams");
 
@@ -353,8 +374,7 @@ app.get('/edit-player-details/:team_id/:player_id/:tr_id', async (req, res) => {
   const team_id = req.params.team_id
   const player_id = req.params.player_id
   const player = await getPlayer(team_id,player_id)
-  console.log(player)
-  res.render('edit-player-details', { player : player[0],tr_id,  isLogged: req.session.logged});
+  res.render('edit-player-details', { player : player[0],tr_id, admin:req.session.admin , isLogged: req.session.logged});
 })
 
 app.post('/edit-player-details/:team_id/:player_id/:tr_id', async function(req, res){
@@ -370,20 +390,15 @@ app.post('/edit-player-details/:team_id/:player_id/:tr_id', async function(req, 
 app.get('/edit-match-details/:match_no/:team_no', async (req, res) => {
   const match_no = req.params.match_no
   const team_no = req.params.team_no
-  console.log(match_no,team_no)
   const match = await getMatch(match_no,team_no)
   const reffs = await getReffs()
   const players = await getPlayers(team_no)
-  console.log(match[0])
-  console.log(reffs)
-  console.log(players)
-  res.render('edit-match-details', { match : match[0],players:players,reffs:reffs, isLogged : req.session.logged})
+  res.render('edit-match-details', { match : match[0],players:players,reffs:reffs,admin:req.session.admin , isLogged : req.session.logged})
 });
 
 app.post('/edit-match-details/:match_no/:team_no/', async function(req, res){
   const match_no = req.params.match_no
   const team_no = req.params.team_no
-  console.log(req.body)
   const player = await editMatchDetails(match_no,team_no,req.body)
   res.redirect("/");
 
@@ -396,7 +411,7 @@ app.get("/team-details/:team_id/:tr_id", async (req, res) => {
   const team = await getTeam(team_id,tr_id)
   const players = await getPlayers(team_id)
   const coach_name = await getCoachName(team_id,tr_id)
-  res.render("team-details" ,{team: team[0] , players: players, coach_name: coach_name[0], isLogged: req.session.logged});
+  res.render("team-details" ,{team: team[0] , players: players, coach_name: coach_name[0],admin:req.session.admin , isLogged: req.session.logged});
 });
 // DASHBOARD
 app.get('/dashboard', async (req, res) => {
@@ -404,10 +419,9 @@ app.get('/dashboard', async (req, res) => {
     res.render('dashboard', { user: {
       name: req.session.name, admin: req.session.admin,
       email: req.session.email
-    },isLogged: req.session.logged});
+    },admin:req.session.admin ,isLogged: req.session.logged});
   } else {
   const users = await getUsers(req.session.email);
-  console.log(users)
   res.render('dashboard', { user: {
     name: req.session.name, admin: req.session.admin,
     email: req.session.email

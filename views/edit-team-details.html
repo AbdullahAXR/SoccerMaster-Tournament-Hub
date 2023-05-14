@@ -3,7 +3,7 @@
  {% block content %}
  <body>
 
-    {% if not isLogged %}
+    {% if not isLogged or admin == 0 %}
     <main>
         <div class="container">
             <div class="row g-3 justify-content-center">
@@ -93,7 +93,7 @@
 
                     </div>
                     <div class="col-12 d-flex">
-                        <a class="ml-auto me-3" href="manage-teams"><button type="button"
+                        <a class="ml-auto me-3" href="/manage-teams"><button type="button"
                                 class="btn btn-primary mb-1">
                                 Back to Manage Teams</button></a>
                         <button class="btn btn-success" type="submit">Confirm Changes</button>

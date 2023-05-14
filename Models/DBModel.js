@@ -81,7 +81,6 @@ const getTeam = async (team_id, tr_id) => {
 const getPlayers = async (team_id) => {
   const db = await getDbConnection();
   const players = await db.all(`SELECT * FROM player   WHERE team_id = '${team_id}'`);
-  console.log(players);
   await db.close();
   return players;
 };
@@ -219,8 +218,6 @@ const addPlayer = async (playerData) => {
 };
 const editPlayer = async (player_id,team_id, playerData) => {
   const db = await getDbConnection();
-  console.log("data")
-  console.log(playerData)
   const player = await db.run(`UPDATE player
   SET player_id = '${player_id}',team_id = '${team_id}',
   jersey_no = '${playerData.jersey_no}',player_name = '${playerData.player_name}',
@@ -260,14 +257,12 @@ const getUsers = async (email) => {
 
 const getMatch = async (match_no, team_id) => {
   const db = await getDbConnection();
-  console.log(match_no, team_id);
   const users = await db.all(`SELECT * FROM match_details WHERE match_no = '${match_no} ' AND team_id = '${team_id}'`);
   await db.close();
   return users;
 };
 const editMatchDetails = async (match_no, team_id, matchData) => {
   const db = await getDbConnection();
-  console.log(matchData)
   
   const match = await db.run(
     `UPDATE match_details  SET match_no = '${match_no}',
@@ -288,6 +283,24 @@ const getReffs = async() =>{
   return reffs;
 
 };
+
+const deleteAccount = async (email) => {
+  const db = await getDbConnection();
+  const meta = await db.run(`DELETE FROM AUTH WHERE email = '${email}'`)
+  await db.close();
+  return meta;
+}
+
+const editAccount = async (body) => {
+  const db = await getDbConnection();
+  //const password = await db.all(`SELECT password FROM Auth WHERE name = '${body.name}'`);
+  const meta = await db.run(`UPDATE Auth 
+  SET 'name' = '${body.name}' , 'email' = '${body.email}' , 'admin' = '${body.admin}'
+  WHERE email = '${body.email}'`)
+  await db.close();
+  return meta;
+}
+
 module.exports = {
   getAllTournaments,
   getTournamentsDetails,
@@ -319,5 +332,7 @@ module.exports = {
   getUsers,
   getMatch,
   editMatchDetails,
-  getReffs
+  getReffs,
+  deleteAccount,
+  editAccount,
 };
