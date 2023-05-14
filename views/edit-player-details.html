@@ -19,55 +19,45 @@
         <div class="container">
             <div class="row g-3 x-panel mt-4">
                 <h2>Edit Player</h2>
-                <form action="#" method="post">
+                <form action="/edit-player-details/{{player.team_id}}/{{player.player_id}}/{{tr_id}}" method="post">
                     <div class="col">
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control" name="name" id="name" placeholder="Player Name"
-                                aria-label="Player Name" aria-describedby="basic-addon1" value="Braulio Boehm" required>
+                            <input type="text" class="form-control" name="player_name" id="name" placeholder="Player Name"
+                                aria-label="Player Name" aria-describedby="basic-addon1" value="{{player.player_name}}"  required>
                             <label for="name">Player Name</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control" name="ID" id="ID" placeholder="Player ID"
-                                aria-label="Player ID" aria-describedby="basic-addon1" value="1" required>
+                            <input type="text" class="form-control" name="player_id" id="ID" placeholder="Player ID"
+                                aria-label="Player ID" aria-describedby="basic-addon1" value="{{player.player_id}}" disabled required>
                             <label for="ID">Player ID</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control" name="team-number" id="team-number"
+                            <input type="text" class="form-control" name="team_id" id="team-number"
                                 placeholder="Team Number" aria-label="Team Number" aria-describedby="basic-addon1"
-                                value="5" required>
+                                value="{{player.team_id}}" disabled required>
                             <label for="phone">Team Number</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="date" class="form-control" name="date" placeholder="date" aria-label="date"
-                                aria-describedby="basic-addon1" value="2023-03-30" required>
+                            <input type="date" class="form-control" name="dt_of_bir" placeholder="date" aria-label="date"
+                                aria-describedby="basic-addon1" value="{{player.dt_of_bir}}" required>
                             <label for="date">Date of Birth</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <select class="form-select" name="type" id="type" aria-label="type">
-                                <option disabled>Select...</option>
-                                <option value="1">Goal Keeper</option>
-                                <option value="2" selected>Striker</option>
-                                <option value="3">Defendor</option>
-                                <option value="3">MidLiner</option>
+                            <select class="form-select" name="type" id="position_to_play" aria-label="type">
+                                <option disabled>{{position.position_desc}}</option>
+                                <option value="GK">Goal Keeper</option>
+                                <option value="FD" selected>Forwards</option>
+                                <option value="DF">Defender</option>
+                                <option value="MF">MidFielder</option>
                             </select>
                             <label for="type">Type</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control" name="phone" id="phone" placeholder="phone"
-                                aria-label="phone" aria-describedby="basic-addon1" value="554-905-9980" required>
-                            <label for="phone">Contact Number</label>
+                            <input type="text" class="form-control" name="jersey_no" id="Jersey_number" placeholder="Jersey number"
+                                aria-label="Jersey number" aria-describedby="basic-addon1" value="{{tr.jersey_no}}"  required>
+                            <label for="Jersey number">Jersey number</label>
                         </div>
-                        <div class="form-floating mb-3">
-                            <input type="email" class="form-control" name="email" id="email" placeholder="Email"
-                                aria-label="Email" aria-describedby="basic-addon1" value="Braulio@example.com" required>
-                            <label for="email">Email</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control" name="department" id="department"
-                                placeholder="department" aria-label="department" aria-describedby="basic-addon1"
-                                value="Football" required>
-                            <label for="department">Department</label>
-                        </div>
+                        
                     </div>
                     <div class="col-12 d-flex">
                         <a class="ml-auto me-3" href="manage-teams"><button type="button"
