@@ -37,13 +37,3 @@ This web project is designed to facilitate the organization, management, and tra
 - **Log In**: Allows users to log into the website using their email and password.
 - **About**: Provides details about SOCCER@KFUPM.
 
-## Technical Details
-
-- **Frontend**: The frontend of the project is developed using HTML & CSS, ensuring a responsive and user-friendly interface.
-- **Database Schema**: A well-designed database schema underlies the application, supporting the complex functionalities required for managing tournaments, teams, players, and matches.
-
-## Pages and Screens
-
-The project includes a comprehensive set of pages for both regular users (visitors) and managers, encompassing functionalities such as viewing tournament details, managing teams, editing matches, and much more, as detailed in the project documentation.
-
-
